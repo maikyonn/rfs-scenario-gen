@@ -18,8 +18,49 @@ from api.chat_progress import emit_tool_progress
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _file_url(filename: str) -> str:
-    """Return an absolute URL for a generated file, using API_BASE_URL env if set."""
+S3_BUCKET = os.environ.get("S3_BUCKET", "")
+S3_PREFIX = os.environ.get("S3_PREFIX", "rfs-scenarios/")
+S3_REGION = os.environ.get("S3_REGION", "us-west-1")
+
+_s3_client = None
+
+def _get_s3_client():
+    """Lazy-init a boto3 S3 client, reusing the AWS_PROFILE from api.pipeline."""
+    global _s3_client
+    if _s3_client is None:
+        import boto3
+        _s3_client = boto3.client("s3", region_name=S3_REGION)
+    return _s3_client
+
+
+def _upload_to_s3(local_path: Path) -> str | None:
+    """Upload file to S3 and return a 24-hour presigned URL, or None if S3 is not configured."""
+    if not S3_BUCKET:
+        return None
+    key = f"{S3_PREFIX}{local_path.name}"
+    try:
+        s3 = _get_s3_client()
+        content_type = "video/mp4" if local_path.suffix == ".mp4" else \
+                       "image/jpeg" if local_path.suffix == ".jpg" else \
+                       "application/xml"
+        s3.upload_file(str(local_path), S3_BUCKET, key, ExtraArgs={"ContentType": content_type})
+        url = s3.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": S3_BUCKET, "Key": key},
+            ExpiresIn=86400,
+        )
+        return url
+    except Exception as e:
+        print(f"[S3] Upload failed for {local_path.name}: {e}")
+        return None
+
+
+def _file_url(filename: str, local_path: Path | None = None) -> str:
+    """Return a URL for a generated file. Tries S3 upload first, falls back to local."""
+    if local_path is not None:
+        s3_url = _upload_to_s3(local_path)
+        if s3_url:
+            return s3_url
     base = os.environ.get("API_BASE_URL", "").rstrip("/")
     return f"{base}/api/file/{filename}"
 
@@ -144,7 +185,7 @@ def build_scenario(config_json: str, session_id: str) -> str:
         builder = ConfigBuilder(config)
         xosc_path = builder.write(str(GENERATED_DIR))
         _patch_xosc_road_path(xosc_path)
-        xosc_url = _file_url(Path(xosc_path).name)
+        xosc_url = _file_url(Path(xosc_path).name, local_path=Path(xosc_path))
         return json.dumps({"xosc_path": xosc_path, "xosc_url": xosc_url, "error": None})
     except Exception as e:
         return json.dumps({"xosc_path": None, "xosc_url": None, "error": str(e)})
@@ -220,7 +261,7 @@ def render_scenario(xosc_path: str) -> str:
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": "Render completed but MP4 not found"})
 
     return json.dumps({
-        "mp4_url": _file_url(mp4.name),
-        "thumbnail_url": _file_url(jpg.name) if jpg.exists() else None,
+        "mp4_url": _file_url(mp4.name, local_path=mp4),
+        "thumbnail_url": _file_url(jpg.name, local_path=jpg) if jpg.exists() else None,
         "error": None,
     })

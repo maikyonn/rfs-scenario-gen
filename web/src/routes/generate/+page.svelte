@@ -33,6 +33,8 @@
 	let messagesEl = $state<HTMLDivElement | null>(null);
 	let textareaEl = $state<HTMLTextAreaElement | null>(null);
 
+	const hasUserMessage = $derived(messages.some(m => m.role === 'user'));
+
 	const EXAMPLES = [
 		'Drunk driver runs a red light and gets T-boned by a crossing SUV at 45mph',
 		'Road-rage motorcycle at 70mph rear-ends a suddenly braking sedan',
@@ -76,6 +78,17 @@
 
 		inputText = '';
 		isStreaming = true;
+
+		// Clear right panel so stale data doesn't linger while new scenario generates
+		currentVideo = null;
+		currentConfig = null;
+		validated = false;
+		xoscUrl = null;
+
+		// Remove the template greeting before the first user message
+		if (messages.length === 1 && messages[0].role === 'assistant') {
+			messages.splice(0, 1);
+		}
 
 		messages.push({ role: 'user', content: text });
 		// Push the assistant message and immediately get the proxied reference back.
@@ -256,15 +269,17 @@
 
 		<!-- Input area -->
 		<div class="input-area">
-			<div class="examples">
-				{#each EXAMPLES as ex}
-					<button
-						class="chip"
-						onclick={() => { inputText = ex; textareaEl?.focus(); }}
-						disabled={isStreaming}
-					>{ex}</button>
-				{/each}
-			</div>
+			{#if !hasUserMessage}
+				<div class="examples">
+					{#each EXAMPLES as ex}
+						<button
+							class="chip"
+							onclick={() => { inputText = ex; textareaEl?.focus(); }}
+							disabled={isStreaming}
+						>{ex}</button>
+					{/each}
+				</div>
+			{/if}
 			<div class="input-row">
 				<textarea
 					bind:this={textareaEl}
