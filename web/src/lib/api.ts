@@ -8,7 +8,10 @@ import type {
 	ExperimentSummary
 } from './types';
 
-const BASE = '';
+// At dev time (vite proxy), BASE is empty. At build time, set PUBLIC_API_BASE env var.
+const BASE = typeof window !== 'undefined'
+	? (import.meta.env.PUBLIC_API_BASE as string) || ''
+	: '';
 
 async function get<T>(path: string): Promise<T> {
 	const res = await fetch(`${BASE}${path}`);

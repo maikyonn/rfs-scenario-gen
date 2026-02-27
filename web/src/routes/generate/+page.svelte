@@ -43,7 +43,7 @@
 		'Distracted pedestrian steps into traffic at dusk, sedan swerves into an SUV',
 	];
 
-	const API = '';
+	const API = (import.meta.env.PUBLIC_API_BASE as string) || '';
 
 	// ── On mount: create session ──────────────────────────────────────────────
 
