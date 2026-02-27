@@ -43,7 +43,8 @@
 		'Distracted pedestrian steps into traffic at dusk, sedan swerves into an SUV',
 	];
 
-	const API = (import.meta.env.PUBLIC_API_BASE as string) || '';
+	import { PUBLIC_API_BASE } from '$env/static/public';
+	const API = PUBLIC_API_BASE || '';
 
 	// ── On mount: create session ──────────────────────────────────────────────
 
