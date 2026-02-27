@@ -117,17 +117,25 @@ For sideswipe: place two vehicles side-by-side (same s), one does lane_change.
 
 ---
 
-## PARKING + DRIVING ROADS (for parking_backing, dooring patterns)
+## PARKING + DRIVING ROADS (for parking_backing, dooring, AND any scenario with parked vehicles)
+
+**IMPORTANT: Any stationary/parked vehicle MUST be placed in a parking lane or use the `offset` parameter. Never place speed_mph=0 vehicles in a driving lane without offset — they end up blocking the middle of the road.**
 
 **Road 54** (85m) — PRIMARY parking road:
-- Lane 2: parking (bwd)
-- Lane 1: driving, backward
-- Lane -1: driving, forward
+- Lane 2: parking (undirected, 4.51m wide) ← **USE THIS for parked vehicles**
+- Lane 1: driving, backward (3.5m wide)
+- Lane -1: driving, forward (3.5m wide)
 - For dooring: place cyclist in lane 1 (bwd), door obstacle in lane 1, parked car in lane 2
 - For parking_backing: place cars in lane 2 (parking), lane_change to lane 1
+- For any "parked vehicle" scenario: use `"lane": 2, "lane_type": "parking", "speed_mph": 0`
 
 **Road 55** (12m) — Very short, backup only:
 - Lane 2: parking, Lane 1: driving (bwd), Lane -1: driving (fwd)
+
+**Other roads (no parking lane):** Use `"offset": 1.2` to push vehicle to road edge. Example:
+```json
+{"entity": "parked_truck", "road": 26, "lane": -1, "s": 50, "speed_mph": 0, "offset": 1.2}
+```
 
 ---
 

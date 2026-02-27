@@ -386,7 +386,13 @@ Place one entity in parking lane (backing out via speed + lane_change), the othe
 
 5. **Entity names must be unique** and must match across `entities`, `init_actions`, `routes`, and `maneuvers`.
 
-6. **Speed conversion:** 1 mph = 0.44704 m/s. Quick reference:
+6. **Parked / stationary vehicles MUST use proper lane placement.** A vehicle with `speed_mph: 0` in a driving lane will sit in the middle of the road. Use one of these approaches:
+   - **Best: Use a parking lane.** Roads 54 and 55 have parking lane 2. Set `"lane": 2, "lane_type": "parking"`.
+   - **Alternative: Use the `offset` parameter** to push the vehicle toward the road edge. On a standard 3.5m driving lane, `"offset": 1.2` shifts the vehicle ~1.2m toward the curb (positive offset = toward the road edge for negative lane IDs, toward center for positive lane IDs). Example: `{"entity": "parked_truck", "road": 26, "lane": -1, "s": 50, "speed_mph": 0, "offset": 1.2}`.
+   - **If the scenario needs a parked vehicle and no specific road is required**, prefer Road 54 with lane 2 (parking lane) — it's the most realistic placement.
+   - **NEVER place a stationary vehicle (speed_mph=0) in a driving lane without an offset** — it will block the middle of the road unrealistically.
+
+7. **Speed conversion:** 1 mph = 0.44704 m/s. Quick reference:
    - 10 mph = 4.5 m/s
    - 15 mph = 6.7 m/s
    - 20 mph = 8.9 m/s

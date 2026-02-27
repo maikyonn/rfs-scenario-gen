@@ -46,6 +46,11 @@ When user asks to modify speed/position/vehicle/pattern:
 - Road 33 (81m, 2 backward lanes) is great for sideswipe
 - J103 has a very short exit road (37, only 1.78m) — avoid using it
 
+## Parked vehicles:
+- NEVER place a stationary vehicle (speed_mph=0) in a driving lane without offset — it blocks the middle of the road.
+- Preferred: Road 54, lane 2 with lane_type="parking" — the only real parking lane.
+- Alternative: Use "offset": 1.2 on any road to push the vehicle toward the curb.
+
 ## Important:
 - Always pass session_id to build_scenario so filenames are unique per session.
 - Never render without a confirmed collision from validate_collision.
