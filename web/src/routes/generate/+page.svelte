@@ -41,11 +41,13 @@
 		'Distracted pedestrian steps into traffic at dusk, sedan swerves into an SUV',
 	];
 
+	const API = import.meta.env.PUBLIC_API_BASE ?? '';
+
 	// ── On mount: create session ──────────────────────────────────────────────
 
 	onMount(async () => {
 		try {
-			const res = await fetch('/api/chat', { method: 'POST' });
+			const res = await fetch(`${API}/api/chat`, { method: 'POST' });
 			if (!res.ok) throw new Error(`HTTP ${res.status}`);
 			const data = await res.json();
 			sessionId = data.session_id;
@@ -86,7 +88,7 @@
 		scrollToBottom();
 
 		try {
-			const res = await fetch(`/api/chat/${sessionId}/message`, {
+			const res = await fetch(`${API}/api/chat/${sessionId}/message`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ content: text }),

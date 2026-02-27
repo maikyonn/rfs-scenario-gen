@@ -16,6 +16,14 @@ from langchain_core.tools import tool
 
 from api.chat_progress import emit_tool_progress
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _file_url(filename: str) -> str:
+    """Return an absolute URL for a generated file, using API_BASE_URL env if set."""
+    base = os.environ.get("API_BASE_URL", "").rstrip("/")
+    return f"{base}/api/file/{filename}"
+
+
 # ── Path setup ────────────────────────────────────────────────────────────────
 
 ROOT = Path(__file__).parent.parent
@@ -136,7 +144,7 @@ def build_scenario(config_json: str, session_id: str) -> str:
         builder = ConfigBuilder(config)
         xosc_path = builder.write(str(GENERATED_DIR))
         _patch_xosc_road_path(xosc_path)
-        xosc_url = f"/api/file/{Path(xosc_path).name}"
+        xosc_url = _file_url(Path(xosc_path).name)
         return json.dumps({"xosc_path": xosc_path, "xosc_url": xosc_url, "error": None})
     except Exception as e:
         return json.dumps({"xosc_path": None, "xosc_url": None, "error": str(e)})
@@ -212,7 +220,7 @@ def render_scenario(xosc_path: str) -> str:
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": "Render completed but MP4 not found"})
 
     return json.dumps({
-        "mp4_url": f"/api/file/{mp4.name}",
-        "thumbnail_url": f"/api/file/{jpg.name}" if jpg.exists() else None,
+        "mp4_url": _file_url(mp4.name),
+        "thumbnail_url": _file_url(jpg.name) if jpg.exists() else None,
         "error": None,
     })

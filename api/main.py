@@ -8,6 +8,7 @@ Endpoints:
   GET  /api/health                    Health check
 """
 
+import os
 import uuid
 from pathlib import Path
 
@@ -20,10 +21,16 @@ from api.pipeline import GENERATED_DIR
 
 app = FastAPI(title="RFS Scenario Generator API")
 
-# Allow SvelteKit dev server (port 5173) to call the API
+_allowed_origins = [
+    "http://localhost:5173",
+    "http://localhost:4173",
+]
+if _extra := os.environ.get("ALLOWED_ORIGIN", ""):
+    _allowed_origins.append(_extra)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:4173"],
+    allow_origins=_allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
