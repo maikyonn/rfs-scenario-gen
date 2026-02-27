@@ -6,6 +6,7 @@ Endpoints:
   GET  /api/chat/{session_id}         Get session message history
   GET  /api/file/{filename}           Serve generated .xosc / .mp4 / .jpg
   GET  /api/health                    Health check
+  POST /api/deploy                    GitHub push webhook (auto-deploy)
 """
 
 import hashlib
