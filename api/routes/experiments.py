@@ -16,13 +16,40 @@ from api.db import (
     get_experiment_summary,
     get_generations_grouped_by_method,
     get_records,
+    get_records_needing_tldr,
     list_experiments,
     update_experiment,
+    update_record_tldr,
 )
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/experiments", tags=["experiments"])
+
+
+def _generate_tldrs(records: list[dict]):
+    """Generate 1-2 sentence TLDRs for records that don't have one yet."""
+    record_ids = [r["id"] for r in records]
+    need_tldr = get_records_needing_tldr(record_ids)
+    if not need_tldr:
+        return
+
+    from api.pipeline import _call_bedrock
+
+    system = (
+        "You summarize crash reports into 1-2 sentence TLDRs describing how "
+        "the vehicles interact. Focus on vehicle movements, positions, and the "
+        "collision dynamics. Be concise and specific. Output ONLY the summary, "
+        "no quotes or prefixes."
+    )
+
+    for rec in need_tldr:
+        try:
+            messages = [{"role": "user", "content": rec["text_desc"]}]
+            text, _, _ = _call_bedrock(messages, system)
+            update_record_tldr(rec["id"], text.strip())
+        except Exception as e:
+            logger.warning("TLDR generation failed for record %d: %s", rec["id"], e)
 
 
 class CreateExperimentRequest(BaseModel):
@@ -52,6 +79,10 @@ async def create_experiment_route(req: CreateExperimentRequest):
         raise HTTPException(400, "No matching records found")
 
     record_ids = [r["id"] for r in records]
+
+    # Generate TLDRs in background thread (non-blocking)
+    import threading
+    threading.Thread(target=_generate_tldrs, args=(records,), daemon=True).start()
 
     exp_id = create_experiment(
         name=req.name,
@@ -146,7 +177,7 @@ async def get_results_route(
     conn = get_conn()
     placeholders = ",".join("?" * len(page_record_ids))
     rows = conn.execute(
-        f"SELECT id, text_desc, crash_type, pattern FROM records WHERE id IN ({placeholders})",
+        f"SELECT id, text_desc, tldr, crash_type, pattern FROM records WHERE id IN ({placeholders})",
         page_record_ids,
     ).fetchall()
     conn.close()

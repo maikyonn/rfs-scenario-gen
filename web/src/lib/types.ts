@@ -29,6 +29,7 @@ export interface DatasetRecord {
 	id: number;
 	dataset_id: number;
 	text_desc: string;
+	tldr: string | null;
 	crash_type: string;
 	pattern: string;
 	metadata_json: string | null;
@@ -64,6 +65,7 @@ export interface ExperimentResult {
 	record: {
 		id: number;
 		text_desc: string;
+		tldr: string | null;
 		crash_type: string;
 		pattern: string;
 	};

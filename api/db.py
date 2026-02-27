@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS records (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     dataset_id INTEGER NOT NULL REFERENCES datasets(id),
     text_desc TEXT NOT NULL,
+    tldr TEXT,
     crash_type TEXT,
     pattern TEXT,
     metadata_json TEXT
@@ -82,6 +83,11 @@ def get_conn() -> sqlite3.Connection:
 def init_db():
     conn = get_conn()
     conn.executescript(_SCHEMA)
+    # Migrate: add tldr column if missing (existing DBs)
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()}
+    if "tldr" not in cols:
+        conn.execute("ALTER TABLE records ADD COLUMN tldr TEXT")
+        conn.commit()
     conn.close()
 
 
@@ -169,13 +175,32 @@ def get_records(
 
     offset = (page - 1) * per_page
     rows = conn.execute(
-        f"SELECT id, dataset_id, text_desc, crash_type, pattern, metadata_json "
+        f"SELECT id, dataset_id, text_desc, tldr, crash_type, pattern, metadata_json "
         f"FROM records WHERE {where_sql} ORDER BY id LIMIT ? OFFSET ?",
         params + [per_page, offset],
     ).fetchall()
 
     conn.close()
     return [dict(r) for r in rows], total
+
+
+def update_record_tldr(record_id: int, tldr: str):
+    conn = get_conn()
+    conn.execute("UPDATE records SET tldr = ? WHERE id = ?", (tldr, record_id))
+    conn.commit()
+    conn.close()
+
+
+def get_records_needing_tldr(record_ids: list[int]) -> list[dict]:
+    """Return records from the given IDs that have no tldr yet."""
+    conn = get_conn()
+    placeholders = ",".join("?" * len(record_ids))
+    rows = conn.execute(
+        f"SELECT id, text_desc FROM records WHERE id IN ({placeholders}) AND (tldr IS NULL OR tldr = '')",
+        record_ids,
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
 
 
 def get_dataset_stats(dataset_id: int) -> dict:

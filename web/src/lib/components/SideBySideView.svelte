@@ -25,13 +25,19 @@
 <div class="sbs-container">
 	<!-- Record header -->
 	<div class="record-header">
-		<p class="record-desc">{result.record.text_desc}</p>
+		{#if result.record.tldr}
+			<p class="record-tldr">{result.record.tldr}</p>
+		{/if}
 		<div class="record-meta">
 			<span class="crash-badge">{result.record.crash_type}</span>
 			{#if result.record.pattern}
 				<span class="pattern-badge">{result.record.pattern}</span>
 			{/if}
 		</div>
+		<details class="desc-details">
+			<summary class="desc-toggle">Full description</summary>
+			<p class="record-desc">{result.record.text_desc}</p>
+		</details>
 	</div>
 
 	<!-- Columns -->
@@ -135,10 +141,38 @@
 		gap: 8px;
 	}
 
-	.record-desc {
+	.record-tldr {
 		margin: 0;
-		font-size: 0.88rem;
+		font-size: 0.9rem;
 		color: var(--color-text);
+		line-height: 1.5;
+		font-weight: 500;
+	}
+
+	.desc-details {
+		margin-top: 2px;
+	}
+
+	.desc-toggle {
+		font-size: 0.75rem;
+		color: var(--color-muted);
+		cursor: pointer;
+		user-select: none;
+		list-style: none;
+	}
+
+	.desc-toggle::-webkit-details-marker {
+		display: none;
+	}
+
+	.desc-toggle:hover {
+		color: var(--color-accent);
+	}
+
+	.record-desc {
+		margin: 6px 0 0 0;
+		font-size: 0.8rem;
+		color: var(--color-muted);
 		line-height: 1.5;
 	}
 
