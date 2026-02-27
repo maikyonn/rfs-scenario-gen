@@ -1,0 +1,22 @@
+{
+  "situation_id": 62,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Pickup_Hits_Stopped_Sedan",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "sedan", "type": "sedan"},
+    {"name": "pickup", "type": "pickup"}
+  ],
+  "init_actions": [
+    {"entity": "sedan", "road": 19, "lane": 1, "s": 20.0, "speed_mph": 0},
+    {"entity": "pickup", "road": 19, "lane": 1, "s": 100.0, "speed_mph": 40}
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    }
+  ]
+}

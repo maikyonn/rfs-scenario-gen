@@ -1,0 +1,82 @@
+{
+  "situation_id": 3,
+  "pattern": "junction_tbone",
+  "scenario_name": "UnprotectedLeftTurn_Pickup_Motorcycle",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 52,
+      "lane": -1,
+      "s": 70.0,
+      "speed_mph": 15
+    },
+    {
+      "entity": "motorcycle",
+      "road": 44,
+      "lane": 1,
+      "s": 65.0,
+      "speed_mph": 35
+    }
+  ],
+  "routes": [
+    {
+      "entity": "pickup",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 70.0,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "motorcycle",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 65.0,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

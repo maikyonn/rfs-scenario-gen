@@ -1,0 +1,31 @@
+{
+  "situation_id": 94,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_Sedan_Ped_Garage",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "sedan", "type": "sedan"},
+    {"name": "ped", "type": "pedestrian"}
+  ],
+  "init_actions": [
+    {"entity": "sedan", "road": 54, "lane": 2, "s": 50, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "ped", "road": 54, "lane": 1, "s": 52, "speed_mph": 3}
+  ],
+  "maneuvers": [
+    {
+      "entity": "ped",
+      "events": [
+        {"name": "walk", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 3}]}
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "reverse_out", "trigger_time": 0.5, "actions": [
+          {"type": "speed_smooth", "speed_mph": 5, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

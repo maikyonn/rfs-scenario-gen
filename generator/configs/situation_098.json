@@ -1,0 +1,32 @@
+{
+  "situation_id": 98,
+  "pattern": "junction_tbone",
+  "scenario_name": "RedLight_SUV_Motorcycle",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "suv", "type": "suv"},
+    {"name": "motorcycle", "type": "motorcycle"}
+  ],
+  "init_actions": [
+    {"entity": "suv", "road": 19, "lane": 1, "s": 72, "speed_mph": 40},
+    {"entity": "motorcycle", "road": 44, "lane": 1, "s": 36, "speed_mph": 20}
+  ],
+  "routes": [
+    {"entity": "suv", "start_road": 19, "start_lane": 1, "start_s": 72, "exit_road": 52, "exit_lane": -1},
+    {"entity": "motorcycle", "start_road": 44, "start_lane": 1, "start_s": 36, "exit_road": 20, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    },
+    {
+      "entity": "motorcycle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 20}]}
+      ]
+    }
+  ]
+}

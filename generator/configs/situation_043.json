@@ -1,0 +1,75 @@
+{
+  "situation_id": 43,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_Motorcycle_Sedan",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "motorcycle",
+      "road": 26,
+      "lane": 1,
+      "s": 90.0,
+      "speed_mph": 20
+    },
+    {
+      "entity": "sedan",
+      "road": 26,
+      "lane": -1,
+      "s": 10.0,
+      "speed_mph": 30
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        },
+        {
+          "name": "drift",
+          "trigger_time": 0.5,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": -1,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

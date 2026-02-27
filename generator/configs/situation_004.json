@@ -1,0 +1,78 @@
+{
+  "situation_id": 4,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_Reverse_Collision",
+  "sim_time": 10.0,
+  "entities": [
+    {
+      "name": "car_a",
+      "type": "sedan"
+    },
+    {
+      "name": "car_b",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "car_a",
+      "road": 54,
+      "lane": 2,
+      "s": 40.0,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    },
+    {
+      "entity": "car_b",
+      "road": 54,
+      "lane": 2,
+      "s": 43.0,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "car_a",
+      "events": [
+        {
+          "name": "reverse_a",
+          "trigger_time": 1.0,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "car_b",
+      "events": [
+        {
+          "name": "reverse_b",
+          "trigger_time": 1.0,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 7,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

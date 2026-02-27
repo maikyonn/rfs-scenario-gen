@@ -1,0 +1,31 @@
+{
+  "situation_id": 77,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "PedDarts_Motorcycle",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "vehicle", "type": "motorcycle"},
+    {"name": "ped", "type": "pedestrian"}
+  ],
+  "init_actions": [
+    {"entity": "vehicle", "road": 53, "lane": -1, "s": 5, "speed_mph": 35},
+    {"entity": "ped", "road": 53, "lane": 1, "s": 50, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "vehicle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {"name": "dash", "trigger_time": 0.5, "actions": [
+          {"type": "speed_smooth", "speed_mph": 5.0, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": -1, "transition_time": 3.0}
+        ]}
+      ]
+    }
+  ]
+}

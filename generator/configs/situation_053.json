@@ -1,0 +1,32 @@
+{
+  "situation_id": 53,
+  "pattern": "junction_tbone",
+  "scenario_name": "MisjudgedGap_Sedan_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "turning_sedan", "type": "sedan"},
+    {"name": "through_sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "turning_sedan", "road": 52, "lane": -1, "s": 66, "speed_mph": 25},
+    {"entity": "through_sedan", "road": 44, "lane": 1, "s": 55, "speed_mph": 40}
+  ],
+  "routes": [
+    {"entity": "turning_sedan", "start_road": 52, "start_lane": -1, "start_s": 66, "exit_road": 19, "exit_lane": 1},
+    {"entity": "through_sedan", "start_road": 44, "start_lane": 1, "start_s": 55, "exit_road": 20, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "turning_sedan",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]}
+      ]
+    },
+    {
+      "entity": "through_sedan",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    }
+  ]
+}

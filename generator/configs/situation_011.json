@@ -1,0 +1,82 @@
+{
+  "situation_id": 11,
+  "pattern": "junction_tbone",
+  "scenario_name": "YellowLight_SUV_Pickup_Tbone",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "pickup",
+      "type": "pickup"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv",
+      "road": 52,
+      "lane": -1,
+      "s": 20.0,
+      "speed_mph": 45
+    },
+    {
+      "entity": "pickup",
+      "road": 44,
+      "lane": 1,
+      "s": 26.0,
+      "speed_mph": 20
+    }
+  ],
+  "routes": [
+    {
+      "entity": "suv",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 20.0,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "pickup",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 26.0,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

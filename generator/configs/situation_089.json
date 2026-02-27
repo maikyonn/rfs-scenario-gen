@@ -1,0 +1,31 @@
+{
+  "situation_id": 89,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_Drowsy_Pickup_Sedan",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "correct", "type": "sedan"},
+    {"name": "wrong_way", "type": "pickup"}
+  ],
+  "init_actions": [
+    {"entity": "correct", "road": 53, "lane": -1, "s": 50, "speed_mph": 35},
+    {"entity": "wrong_way", "road": 53, "lane": 1, "s": 150, "speed_mph": 35}
+  ],
+  "maneuvers": [
+    {
+      "entity": "correct",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    },
+    {
+      "entity": "wrong_way",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]},
+        {"name": "drift", "trigger_time": 0.5, "actions": [
+          {"type": "lane_change", "target_lane": -1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "situation_id": 999,
+  "pattern": "junction_tbone",
+  "scenario_name": "gen_0704b811",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 17,
+      "speed_mph": 40
+    },
+    {
+      "entity": "suv",
+      "road": 44,
+      "lane": 1,
+      "s": 59,
+      "speed_mph": 25
+    }
+  ],
+  "routes": [
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 17,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "suv",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 59,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

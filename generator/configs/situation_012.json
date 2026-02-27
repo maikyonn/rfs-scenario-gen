@@ -1,0 +1,75 @@
+{
+  "situation_id": 12,
+  "pattern": "rear_end",
+  "scenario_name": "Motorcycle_RearEnd_BrakingSedanPed",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 53,
+      "lane": -1,
+      "s": 200.0,
+      "speed_mph": 20
+    },
+    {
+      "entity": "motorcycle",
+      "road": 53,
+      "lane": -1,
+      "s": 155.0,
+      "speed_mph": 30
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "sedan_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        },
+        {
+          "name": "sedan_brake",
+          "trigger_time": 3.5,
+          "actions": [
+            {
+              "type": "brake",
+              "target_speed_mph": 0,
+              "transition_time": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "moto_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

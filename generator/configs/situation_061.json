@@ -1,0 +1,32 @@
+{
+  "situation_id": 61,
+  "pattern": "junction_tbone",
+  "scenario_name": "Uncontrolled_Sedan_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "sedan_a", "type": "sedan"},
+    {"name": "sedan_b", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "sedan_a", "road": 52, "lane": -1, "s": 50, "speed_mph": 25},
+    {"entity": "sedan_b", "road": 44, "lane": 1, "s": 50, "speed_mph": 25}
+  ],
+  "routes": [
+    {"entity": "sedan_a", "start_road": 52, "start_lane": -1, "start_s": 50, "exit_road": 19, "exit_lane": 1},
+    {"entity": "sedan_b", "start_road": 44, "start_lane": 1, "start_s": 50, "exit_road": 20, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan_a",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]}
+      ]
+    },
+    {
+      "entity": "sedan_b",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]}
+      ]
+    }
+  ]
+}

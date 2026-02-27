@@ -1,0 +1,31 @@
+{
+  "situation_id": 73,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_BlindSpot_SUV_MC",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "changer", "type": "suv"},
+    {"name": "target", "type": "motorcycle"}
+  ],
+  "init_actions": [
+    {"entity": "changer", "road": 33, "lane": 2, "s": 65, "speed_mph": 30},
+    {"entity": "target", "road": 33, "lane": 1, "s": 63, "speed_mph": 35}
+  ],
+  "maneuvers": [
+    {
+      "entity": "target",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    },
+    {
+      "entity": "changer",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]},
+        {"name": "lane_change", "trigger_time": 1.0, "actions": [
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

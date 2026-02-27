@@ -1,0 +1,28 @@
+{
+  "situation_id": 72,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Sedan_Hits_SlowBicycle",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "bicycle", "type": "bicycle"},
+    {"name": "sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "bicycle", "road": 26, "lane": 1, "s": 120.0, "speed_mph": 8},
+    {"entity": "sedan", "road": 26, "lane": 1, "s": 165.0, "speed_mph": 30}
+  ],
+  "maneuvers": [
+    {
+      "entity": "bicycle",
+      "events": [
+        {"name": "maintain_slow", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 8}]}
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain_fast", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    }
+  ]
+}

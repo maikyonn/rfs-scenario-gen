@@ -1,0 +1,75 @@
+{
+  "situation_id": 45,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_Sedan_Pickup",
+  "sim_time": 10.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "pickup",
+      "type": "pickup"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 33,
+      "lane": 1,
+      "s": 60,
+      "speed_mph": 40
+    },
+    {
+      "entity": "pickup",
+      "road": 33,
+      "lane": 2,
+      "s": 60,
+      "speed_mph": 40
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        },
+        {
+          "name": "drift_left",
+          "trigger_time": 1.0,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 2,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

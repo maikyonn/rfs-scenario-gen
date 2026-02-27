@@ -1,0 +1,76 @@
+{
+  "situation_id": 999,
+  "pattern": "sideswipe",
+  "scenario_name": "gen_f1a3de23",
+  "sim_time": 10.0,
+  "entities": [
+    {
+      "name": "changer",
+      "type": "sedan"
+    },
+    {
+      "name": "target",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "changer",
+      "road": 33,
+      "lane": 2,
+      "s": 65,
+      "speed_mph": 35
+    },
+    {
+      "entity": "target",
+      "road": 33,
+      "lane": 1,
+      "s": 65,
+      "speed_mph": 35
+    }
+  ],
+  "routes": [],
+  "maneuvers": [
+    {
+      "entity": "changer",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        },
+        {
+          "name": "drift_left",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "target",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

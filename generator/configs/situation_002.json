@@ -1,0 +1,82 @@
+{
+  "situation_id": 2,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_FourCarQueue_Distracted",
+  "sim_time": 14.0,
+  "entities": [
+    {
+      "name": "car_a",
+      "type": "sedan"
+    },
+    {
+      "name": "car_b",
+      "type": "sedan"
+    },
+    {
+      "name": "car_c",
+      "type": "sedan"
+    },
+    {
+      "name": "car_d",
+      "type": "sedan"
+    },
+    {
+      "name": "car_e",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "car_a",
+      "road": 53,
+      "lane": -1,
+      "s": 290.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_b",
+      "road": 53,
+      "lane": -1,
+      "s": 283.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_c",
+      "road": 53,
+      "lane": -1,
+      "s": 277.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_d",
+      "road": 53,
+      "lane": -1,
+      "s": 270.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_e",
+      "road": 53,
+      "lane": -1,
+      "s": 20.0,
+      "speed_mph": 45
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "car_e",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 45
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

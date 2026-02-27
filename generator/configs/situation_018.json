@@ -1,0 +1,71 @@
+{
+  "situation_id": 18,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_Backing_Pedestrian",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "ped",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 54,
+      "lane": 2,
+      "s": 45.0,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    },
+    {
+      "entity": "ped",
+      "road": 54,
+      "lane": 1,
+      "s": 47.0,
+      "speed_mph": 3
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "back_out",
+          "trigger_time": 0.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {
+          "name": "walk",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

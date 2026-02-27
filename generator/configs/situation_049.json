@@ -1,0 +1,82 @@
+{
+  "situation_id": 49,
+  "pattern": "junction_tbone",
+  "scenario_name": "StopSign_Bicycle_Pickup",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "bicycle",
+      "type": "bicycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 52,
+      "lane": -1,
+      "s": 62,
+      "speed_mph": 30
+    },
+    {
+      "entity": "bicycle",
+      "road": 44,
+      "lane": 1,
+      "s": 10,
+      "speed_mph": 12
+    }
+  ],
+  "routes": [
+    {
+      "entity": "pickup",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 62,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "bicycle",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 10,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "bicycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 12
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

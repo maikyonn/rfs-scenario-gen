@@ -1,0 +1,71 @@
+{
+  "situation_id": 999,
+  "pattern": "rear_end",
+  "scenario_name": "gen_e8930d5c",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "car_a",
+      "type": "sedan"
+    },
+    {
+      "name": "car_b",
+      "type": "sedan"
+    },
+    {
+      "name": "car_c",
+      "type": "sedan"
+    },
+    {
+      "name": "distracted",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "car_a",
+      "road": 53,
+      "lane": -1,
+      "s": 200.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_b",
+      "road": 53,
+      "lane": -1,
+      "s": 193.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "car_c",
+      "road": 53,
+      "lane": -1,
+      "s": 187.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "distracted",
+      "road": 53,
+      "lane": -1,
+      "s": 140.0,
+      "speed_mph": 40
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "distracted",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

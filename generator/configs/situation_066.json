@@ -1,0 +1,29 @@
+{
+  "situation_id": 66,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_YellowLight_LeadBrakes",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "lead", "type": "sedan"},
+    {"name": "follower", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "lead", "road": 26, "lane": -1, "s": 30.0, "speed_mph": 40},
+    {"entity": "follower", "road": 26, "lane": -1, "s": 14.0, "speed_mph": 40}
+  ],
+  "maneuvers": [
+    {
+      "entity": "lead",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]},
+        {"name": "brake_yellow", "trigger_time": 2.0, "actions": [{"type": "brake", "target_speed_mph": 0, "transition_time": 2.0}]}
+      ]
+    },
+    {
+      "entity": "follower",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    }
+  ]
+}

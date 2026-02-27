@@ -1,0 +1,25 @@
+{
+  "situation_id": 65,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_LaneFilter_MC_Sedan",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "changer", "type": "motorcycle"},
+    {"name": "target", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "changer", "road": 33, "lane": 1, "s": 70, "speed_mph": 30},
+    {"entity": "target", "road": 33, "lane": 2, "s": 40, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "changer",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]},
+        {"name": "lane_change", "trigger_time": 1.0, "actions": [
+          {"type": "lane_change", "target_lane": 2, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "situation_id": 903,
+  "pattern": "head_on",
+  "scenario_name": "test_head_on",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "correct", "type": "sedan"},
+    {"name": "wrong_way", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "correct", "road": 26, "lane": -1, "s": 5.0, "speed_mph": 35},
+    {"entity": "wrong_way", "road": 26, "lane": 1, "s": 51.9, "speed_mph": 25}
+  ],
+  "maneuvers": [
+    {
+      "entity": "correct",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    },
+    {
+      "entity": "wrong_way",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]},
+        {"name": "drift", "trigger_time": 0.5, "actions": [{"type": "lane_change", "target_lane": -1, "transition_time": 2.0}]}
+      ]
+    }
+  ]
+}

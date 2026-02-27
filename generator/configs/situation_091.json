@@ -1,0 +1,29 @@
+{
+  "situation_id": 91,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Sedan_Hits_SlowPickup_Blowout",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "pickup", "type": "pickup"},
+    {"name": "sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "pickup", "road": 53, "lane": -1, "s": 80.0, "speed_mph": 30},
+    {"entity": "sedan", "road": 53, "lane": -1, "s": 30.0, "speed_mph": 45}
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]},
+        {"name": "blowout_brake", "trigger_time": 2.0, "actions": [{"type": "brake", "target_speed_mph": 10, "transition_time": 2.0}]}
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain_fast", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 45}]}
+      ]
+    }
+  ]
+}

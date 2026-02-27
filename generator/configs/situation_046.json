@@ -1,0 +1,82 @@
+{
+  "situation_id": 46,
+  "pattern": "junction_tbone",
+  "scenario_name": "YieldSign_SUV_TBoned_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv",
+      "road": 44,
+      "lane": 1,
+      "s": 25,
+      "speed_mph": 15
+    },
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 20,
+      "speed_mph": 35
+    }
+  ],
+  "routes": [
+    {
+      "entity": "suv",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 25,
+      "exit_road": 20,
+      "exit_lane": -1
+    },
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 20,
+      "exit_road": 19,
+      "exit_lane": 1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

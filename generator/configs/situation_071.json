@@ -1,0 +1,32 @@
+{
+  "situation_id": 71,
+  "pattern": "junction_tbone",
+  "scenario_name": "WideRightTurn_Pickup_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "pickup", "type": "pickup"},
+    {"name": "sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "pickup", "road": 44, "lane": 1, "s": 18, "speed_mph": 10},
+    {"entity": "sedan", "road": 19, "lane": 1, "s": 63, "speed_mph": 35}
+  ],
+  "routes": [
+    {"entity": "pickup", "start_road": 44, "start_lane": 1, "start_s": 18, "exit_road": 20, "exit_lane": -1},
+    {"entity": "sedan", "start_road": 19, "start_lane": 1, "start_s": 63, "exit_road": 52, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 10}]}
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    }
+  ]
+}

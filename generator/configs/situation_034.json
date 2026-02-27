@@ -1,0 +1,82 @@
+{
+  "situation_id": 34,
+  "pattern": "junction_tbone",
+  "scenario_name": "FourWayStop_TwoSUV",
+  "sim_time": 20.0,
+  "entities": [
+    {
+      "name": "suv_a",
+      "type": "suv"
+    },
+    {
+      "name": "suv_b",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv_a",
+      "road": 52,
+      "lane": -1,
+      "s": 42,
+      "speed_mph": 15
+    },
+    {
+      "entity": "suv_b",
+      "road": 44,
+      "lane": 1,
+      "s": 58,
+      "speed_mph": 15
+    }
+  ],
+  "routes": [
+    {
+      "entity": "suv_a",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 42,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "suv_b",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 58,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv_a",
+      "events": [
+        {
+          "name": "maintain_a",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv_b",
+      "events": [
+        {
+          "name": "maintain_b",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

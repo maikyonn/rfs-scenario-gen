@@ -1,0 +1,75 @@
+{
+  "situation_id": 31,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_LaneSplit_Motorcycle",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "motorcycle",
+      "road": 33,
+      "lane": 1,
+      "s": 70,
+      "speed_mph": 25
+    },
+    {
+      "entity": "sedan",
+      "road": 33,
+      "lane": 2,
+      "s": 65,
+      "speed_mph": 20
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        },
+        {
+          "name": "lane_change_unsignaled",
+          "trigger_time": 2.0,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "situation_id": 29,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "Elderly_Ped_Crosswalk_RightTurn",
+  "sim_time": 14.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "ped",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 39,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 15
+    },
+    {
+      "entity": "ped",
+      "road": 39,
+      "lane": 1,
+      "s": 38.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {
+          "name": "cross",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 2.5,
+              "transition_time": 0.8
+            },
+            {
+              "type": "lane_change",
+              "target_lane": -1,
+              "transition_time": 4.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

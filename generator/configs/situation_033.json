@@ -1,0 +1,49 @@
+{
+  "situation_id": 33,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_Bicycle_Stopped_Sedan",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "bicycle",
+      "type": "bicycle"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "bicycle",
+      "road": 53,
+      "lane": -1,
+      "s": 280.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan",
+      "road": 53,
+      "lane": -1,
+      "s": 220.0,
+      "speed_mph": 20
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

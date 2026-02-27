@@ -1,0 +1,30 @@
+{
+  "situation_id": 904,
+  "pattern": "parking_backing",
+  "scenario_name": "test_parking_backing",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "car_a", "type": "sedan"},
+    {"name": "car_b", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "car_a", "road": 54, "lane": 2, "s": 40, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "car_b", "road": 54, "lane": 2, "s": 42, "speed_mph": 0, "lane_type": "parking"}
+  ],
+  "maneuvers": [
+    {
+      "entity": "car_a",
+      "events": [
+        {"name": "speed", "trigger_time": 1.0, "actions": [{"type": "speed_smooth", "speed_mph": 5, "transition_time": 0.5}]},
+        {"name": "reverse", "trigger_time": 1.0, "actions": [{"type": "lane_change", "target_lane": 1, "transition_time": 2.5}]}
+      ]
+    },
+    {
+      "entity": "car_b",
+      "events": [
+        {"name": "speed", "trigger_time": 1.0, "actions": [{"type": "speed_smooth", "speed_mph": 7, "transition_time": 0.5}]},
+        {"name": "reverse", "trigger_time": 1.0, "actions": [{"type": "lane_change", "target_lane": 1, "transition_time": 2.5}]}
+      ]
+    }
+  ]
+}

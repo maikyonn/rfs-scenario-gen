@@ -1,0 +1,71 @@
+{
+  "situation_id": 17,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_SUV_StopSignQueue",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan_a",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_b",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_c",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan_a",
+      "road": 53,
+      "lane": -1,
+      "s": 290.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_b",
+      "road": 53,
+      "lane": -1,
+      "s": 283.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_c",
+      "road": 53,
+      "lane": -1,
+      "s": 277.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "suv",
+      "road": 53,
+      "lane": -1,
+      "s": 220.0,
+      "speed_mph": 35
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "situation_id": 88,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_BikeLane_Sedan_Bicycle",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "changer", "type": "sedan"},
+    {"name": "target", "type": "bicycle"}
+  ],
+  "init_actions": [
+    {"entity": "changer", "road": 33, "lane": 1, "s": 55, "speed_mph": 25},
+    {"entity": "target", "road": 33, "lane": 2, "s": 55, "speed_mph": 15}
+  ],
+  "maneuvers": [
+    {
+      "entity": "target",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 15}]}
+      ]
+    },
+    {
+      "entity": "changer",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]},
+        {"name": "lane_change", "trigger_time": 0.5, "actions": [
+          {"type": "lane_change", "target_lane": 2, "transition_time": 1.5}
+        ]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "situation_id": 93,
+  "pattern": "junction_tbone",
+  "scenario_name": "StaleGreen_Motorcycle_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "motorcycle", "type": "motorcycle"},
+    {"name": "sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "motorcycle", "road": 19, "lane": 1, "s": 90, "speed_mph": 45},
+    {"entity": "sedan", "road": 44, "lane": 1, "s": 30, "speed_mph": 15}
+  ],
+  "routes": [
+    {"entity": "motorcycle", "start_road": 19, "start_lane": 1, "start_s": 90, "exit_road": 52, "exit_lane": -1},
+    {"entity": "sedan", "start_road": 44, "start_lane": 1, "start_s": 30, "exit_road": 20, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 45}]}
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 15}]}
+      ]
+    }
+  ]
+}

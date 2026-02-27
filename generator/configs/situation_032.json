@@ -1,0 +1,75 @@
+{
+  "situation_id": 32,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_CenterLineDrift",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan_a",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_b",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan_a",
+      "road": 26,
+      "lane": -1,
+      "s": 10.0,
+      "speed_mph": 25
+    },
+    {
+      "entity": "sedan_b",
+      "road": 26,
+      "lane": 1,
+      "s": 90.0,
+      "speed_mph": 25
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan_a",
+      "events": [
+        {
+          "name": "maintain_a",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan_b",
+      "events": [
+        {
+          "name": "maintain_b",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        },
+        {
+          "name": "drift_b",
+          "trigger_time": 0.5,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": -1,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

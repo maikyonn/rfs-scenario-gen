@@ -1,0 +1,82 @@
+{
+  "situation_id": 16,
+  "pattern": "junction_tbone",
+  "scenario_name": "Cyclist_RedLight_TBone",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "bicycle",
+      "type": "bicycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 39,
+      "lane": -1,
+      "s": 12,
+      "speed_mph": 30
+    },
+    {
+      "entity": "bicycle",
+      "road": 28,
+      "lane": 1,
+      "s": 21,
+      "speed_mph": 12
+    }
+  ],
+  "routes": [
+    {
+      "entity": "sedan",
+      "start_road": 39,
+      "start_lane": -1,
+      "start_s": 12,
+      "exit_road": 54,
+      "exit_lane": -1
+    },
+    {
+      "entity": "bicycle",
+      "start_road": 28,
+      "start_lane": 1,
+      "start_s": 21,
+      "exit_road": 25,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "bicycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 12
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

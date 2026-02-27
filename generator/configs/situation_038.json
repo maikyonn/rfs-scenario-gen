@@ -1,0 +1,75 @@
+{
+  "situation_id": 38,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_SUV_Merge",
+  "sim_time": 10.0,
+  "entities": [
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv",
+      "road": 33,
+      "lane": 1,
+      "s": 60,
+      "speed_mph": 30
+    },
+    {
+      "entity": "sedan",
+      "road": 33,
+      "lane": 2,
+      "s": 60,
+      "speed_mph": 35
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "sedan_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "suv_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        },
+        {
+          "name": "suv_merge",
+          "trigger_time": 1.0,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 2,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

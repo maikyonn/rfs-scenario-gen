@@ -1,0 +1,31 @@
+{
+  "situation_id": 58,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_WrongWay_Sedan_MC",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "correct", "type": "motorcycle"},
+    {"name": "wrong_way", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "correct", "road": 26, "lane": -1, "s": 10, "speed_mph": 40},
+    {"entity": "wrong_way", "road": 26, "lane": 1, "s": 120, "speed_mph": 30}
+  ],
+  "maneuvers": [
+    {
+      "entity": "correct",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    },
+    {
+      "entity": "wrong_way",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]},
+        {"name": "drift", "trigger_time": 0.5, "actions": [
+          {"type": "lane_change", "target_lane": -1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

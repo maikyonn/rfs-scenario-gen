@@ -1,0 +1,31 @@
+{
+  "situation_id": 81,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_UTurn_Sedan_SUV",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "changer", "type": "sedan"},
+    {"name": "target", "type": "suv"}
+  ],
+  "init_actions": [
+    {"entity": "changer", "road": 33, "lane": 2, "s": 45, "speed_mph": 10},
+    {"entity": "target", "road": 33, "lane": 1, "s": 48, "speed_mph": 30}
+  ],
+  "maneuvers": [
+    {
+      "entity": "target",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    },
+    {
+      "entity": "changer",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 10}]},
+        {"name": "lane_change", "trigger_time": 1.0, "actions": [
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

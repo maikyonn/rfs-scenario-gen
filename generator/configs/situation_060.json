@@ -1,0 +1,24 @@
+{
+  "situation_id": 60,
+  "pattern": "dooring",
+  "scenario_name": "DeliveryVan_Dooring_Cyclist",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "cyclist", "type": "bicycle"},
+    {"name": "parked_van", "type": "sedan"},
+    {"name": "door", "type": "parked_car_door"}
+  ],
+  "init_actions": [
+    {"entity": "cyclist", "road": 54, "lane": 1, "s": 65, "speed_mph": 18},
+    {"entity": "parked_van", "road": 54, "lane": 2, "s": 40, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "door", "road": 54, "lane": 1, "s": 40, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "cyclist",
+      "events": [
+        {"name": "ride", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 18}]}
+      ]
+    }
+  ]
+}

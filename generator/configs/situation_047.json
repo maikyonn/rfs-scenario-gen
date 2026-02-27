@@ -1,0 +1,107 @@
+{
+  "situation_id": 47,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_BrakingSedan_SUV",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "ped",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 53,
+      "lane": -1,
+      "s": 200.0,
+      "speed_mph": 25
+    },
+    {
+      "entity": "suv",
+      "road": 53,
+      "lane": -1,
+      "s": 155.0,
+      "speed_mph": 30
+    },
+    {
+      "entity": "ped",
+      "road": 53,
+      "lane": 1,
+      "s": 240.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "sedan_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        },
+        {
+          "name": "sedan_brake",
+          "trigger_time": 2.5,
+          "actions": [
+            {
+              "type": "brake",
+              "target_speed_mph": 0,
+              "transition_time": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "suv_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {
+          "name": "ped_dash",
+          "trigger_time": 2.0,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 4.5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": -1,
+              "transition_time": 3.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "situation_id": 28,
+  "pattern": "parking_backing",
+  "scenario_name": "SUV_Backing_Cyclist",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "cyclist",
+      "type": "bicycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv",
+      "road": 54,
+      "lane": 2,
+      "s": 42.0,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    },
+    {
+      "entity": "cyclist",
+      "road": 54,
+      "lane": 1,
+      "s": 65.0,
+      "speed_mph": 10
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "back_out",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "cyclist",
+      "events": [
+        {
+          "name": "ride",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

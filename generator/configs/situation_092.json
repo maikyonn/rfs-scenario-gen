@@ -1,0 +1,31 @@
+{
+  "situation_id": 92,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "SchoolZone_Pickup_ChildRuns",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "vehicle", "type": "pickup"},
+    {"name": "ped", "type": "pedestrian"}
+  ],
+  "init_actions": [
+    {"entity": "vehicle", "road": 39, "lane": -1, "s": 5, "speed_mph": 20},
+    {"entity": "ped", "road": 39, "lane": 1, "s": 35, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "vehicle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 20}]}
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {"name": "dash", "trigger_time": 1.0, "actions": [
+          {"type": "speed_smooth", "speed_mph": 5.0, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": -1, "transition_time": 3.0}
+        ]}
+      ]
+    }
+  ]
+}

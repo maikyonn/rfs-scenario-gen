@@ -1,0 +1,34 @@
+{
+  "situation_id": 69,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_TwoSUVs_Reverse",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "suv_a", "type": "suv"},
+    {"name": "suv_b", "type": "suv"}
+  ],
+  "init_actions": [
+    {"entity": "suv_a", "road": 54, "lane": 2, "s": 38, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "suv_b", "road": 54, "lane": 2, "s": 45, "speed_mph": 0, "lane_type": "parking"}
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv_a",
+      "events": [
+        {"name": "reverse_a", "trigger_time": 1.0, "actions": [
+          {"type": "speed_smooth", "speed_mph": 5, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.5}
+        ]}
+      ]
+    },
+    {
+      "entity": "suv_b",
+      "events": [
+        {"name": "reverse_b", "trigger_time": 1.0, "actions": [
+          {"type": "speed_smooth", "speed_mph": 7, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.5}
+        ]}
+      ]
+    }
+  ]
+}

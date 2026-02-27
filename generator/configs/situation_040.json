@@ -1,0 +1,71 @@
+{
+  "situation_id": 40,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_Backup_Pickup_Sedan",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 54,
+      "lane": 2,
+      "s": 45.0,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    },
+    {
+      "entity": "sedan",
+      "road": 54,
+      "lane": 1,
+      "s": 70.0,
+      "speed_mph": 10
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "backup",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "situation_id": 27,
+  "pattern": "rear_end",
+  "scenario_name": "ChainReaction_Tailgating_RearEnd",
+  "sim_time": 14.0,
+  "entities": [
+    {
+      "name": "car_lead",
+      "type": "sedan"
+    },
+    {
+      "name": "car_mid",
+      "type": "sedan"
+    },
+    {
+      "name": "car_tail",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "car_lead",
+      "road": 53,
+      "lane": -1,
+      "s": 280.0,
+      "speed_mph": 30
+    },
+    {
+      "entity": "car_mid",
+      "road": 53,
+      "lane": -1,
+      "s": 240.0,
+      "speed_mph": 40
+    },
+    {
+      "entity": "car_tail",
+      "road": 53,
+      "lane": -1,
+      "s": 190.0,
+      "speed_mph": 50
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "car_lead",
+      "events": [
+        {
+          "name": "lead_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        },
+        {
+          "name": "lead_brake",
+          "trigger_time": 3.0,
+          "actions": [
+            {
+              "type": "brake",
+              "target_speed_mph": 0,
+              "transition_time": 3.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "car_mid",
+      "events": [
+        {
+          "name": "mid_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        },
+        {
+          "name": "mid_brake",
+          "trigger_time": 4.0,
+          "actions": [
+            {
+              "type": "brake",
+              "target_speed_mph": 5,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "car_tail",
+      "events": [
+        {
+          "name": "tail_maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 50
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

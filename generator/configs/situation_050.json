@@ -1,0 +1,104 @@
+{
+  "situation_id": 50,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_SixCarQueue_SUV",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan_1",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_2",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_3",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_4",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_5",
+      "type": "sedan"
+    },
+    {
+      "name": "sedan_6",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan_1",
+      "road": 53,
+      "lane": -1,
+      "s": 280.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_2",
+      "road": 53,
+      "lane": -1,
+      "s": 273.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_3",
+      "road": 53,
+      "lane": -1,
+      "s": 267.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_4",
+      "road": 53,
+      "lane": -1,
+      "s": 260.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_5",
+      "road": 53,
+      "lane": -1,
+      "s": 254.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan_6",
+      "road": 53,
+      "lane": -1,
+      "s": 247.5,
+      "speed_mph": 0
+    },
+    {
+      "entity": "suv",
+      "road": 53,
+      "lane": -1,
+      "s": 190.0,
+      "speed_mph": 20
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

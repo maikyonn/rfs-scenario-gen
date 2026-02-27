@@ -1,0 +1,82 @@
+{
+  "situation_id": 37,
+  "pattern": "junction_tbone",
+  "scenario_name": "UnprotectedLeft_Sedan_SUV",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 87,
+      "speed_mph": 10
+    },
+    {
+      "entity": "suv",
+      "road": 44,
+      "lane": 1,
+      "s": 60,
+      "speed_mph": 45
+    }
+  ],
+  "routes": [
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 87,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "suv",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 60,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 45
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

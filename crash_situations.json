@@ -1,0 +1,709 @@
+{
+  "meta": {
+    "version": "1.0",
+    "count": 100,
+    "description": "Input crash situation descriptions for LLM-driven scenario generation"
+  },
+  "situations": [
+    {
+      "id": 1,
+      "pattern": "junction_tbone",
+      "description": "A sedan runs a red light at 40 mph and T-bones an SUV crossing through the intersection on a green signal.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [40, 30]
+    },
+    {
+      "id": 2,
+      "pattern": "rear_end",
+      "description": "Four cars are stopped at a red light. A distracted driver in a fifth sedan approaches at 45 mph and rear-ends the back of the queue.",
+      "entities": ["sedan", "sedan", "sedan", "sedan", "sedan"],
+      "speeds_mph": [0, 0, 0, 0, 45]
+    },
+    {
+      "id": 3,
+      "pattern": "junction_tbone",
+      "description": "A pickup truck makes an unprotected left turn at an intersection and is struck by an oncoming motorcycle traveling at 35 mph.",
+      "entities": ["pickup", "motorcycle"],
+      "speeds_mph": [15, 35]
+    },
+    {
+      "id": 4,
+      "pattern": "parking_backing",
+      "description": "Two sedans in adjacent parking spaces reverse out simultaneously without checking mirrors, colliding at low speed.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [5, 7]
+    },
+    {
+      "id": 5,
+      "pattern": "pedestrian_crossing",
+      "description": "A pedestrian dashes into the road from behind a parked car. A sedan traveling at 25 mph cannot stop in time.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [25, 0]
+    },
+    {
+      "id": 6,
+      "pattern": "sideswipe",
+      "description": "A sedan changes lanes without checking its blind spot and sideswipes another sedan traveling in the adjacent lane at 35 mph.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [35, 35]
+    },
+    {
+      "id": 7,
+      "pattern": "head_on",
+      "description": "A wrong-way driver enters a one-way street at 25 mph and collides head-on with an oncoming sedan at 35 mph.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [25, 35]
+    },
+    {
+      "id": 8,
+      "pattern": "dooring",
+      "description": "A cyclist riding at 15 mph along parked cars is struck by a suddenly opened car door.",
+      "entities": ["bicycle", "parked_car_door"],
+      "speeds_mph": [15, 0]
+    },
+    {
+      "id": 9,
+      "pattern": "junction_tbone",
+      "description": "A sedan rolls through a stop sign at 15 mph and is hit by a cross-traffic SUV traveling at 40 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [15, 40]
+    },
+    {
+      "id": 10,
+      "pattern": "rear_end",
+      "description": "A lead sedan brakes hard for debris on the road. The trailing sedan at 35 mph cannot stop in time and rear-ends it.",
+      "entities": ["sedan", "sedan", "debris"],
+      "speeds_mph": [35, 35, 0]
+    },
+    {
+      "id": 11,
+      "pattern": "junction_tbone",
+      "description": "An SUV accelerates through a yellow-turning-red light at 45 mph and T-bones a pickup entering the intersection from the cross street.",
+      "entities": ["suv", "pickup"],
+      "speeds_mph": [45, 20]
+    },
+    {
+      "id": 12,
+      "pattern": "rear_end",
+      "description": "A motorcycle following too closely rear-ends a sedan that brakes suddenly for a pedestrian in a crosswalk.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [0, 30]
+    },
+    {
+      "id": 13,
+      "pattern": "pedestrian_crossing",
+      "description": "A jogger crosses the road at a non-crosswalk location. An SUV traveling at 30 mph crests a small hill and strikes the pedestrian.",
+      "entities": ["suv", "pedestrian"],
+      "speeds_mph": [30, 0]
+    },
+    {
+      "id": 14,
+      "pattern": "sideswipe",
+      "description": "A pickup truck drifts into the adjacent lane while the driver is distracted, sideswiping a motorcycle at 40 mph.",
+      "entities": ["pickup", "motorcycle"],
+      "speeds_mph": [40, 40]
+    },
+    {
+      "id": 15,
+      "pattern": "head_on",
+      "description": "A sedan drifts across the center line on a two-lane road and hits an oncoming pickup head-on. Combined speed over 60 mph.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [30, 35]
+    },
+    {
+      "id": 16,
+      "pattern": "junction_tbone",
+      "description": "A cyclist enters an intersection against the signal and is struck by a sedan traveling through on a green light at 30 mph.",
+      "entities": ["sedan", "bicycle"],
+      "speeds_mph": [30, 10]
+    },
+    {
+      "id": 17,
+      "pattern": "rear_end",
+      "description": "Three sedans are queued at a stop sign. An SUV approaching at 35 mph fails to notice the queue and rear-ends the last vehicle.",
+      "entities": ["sedan", "sedan", "sedan", "suv"],
+      "speeds_mph": [0, 0, 0, 35]
+    },
+    {
+      "id": 18,
+      "pattern": "parking_backing",
+      "description": "A sedan backing out of a parking space collides with a pedestrian walking behind the vehicle.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [5, 3]
+    },
+    {
+      "id": 19,
+      "pattern": "junction_tbone",
+      "description": "An ambulance proceeding through a red light at 25 mph is struck by a sedan that failed to yield from the cross street at 35 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [35, 25]
+    },
+    {
+      "id": 20,
+      "pattern": "dooring",
+      "description": "A motorcycle traveling at 20 mph in the right lane clips an open car door from a vehicle parked in the adjacent parking lane.",
+      "entities": ["motorcycle", "parked_car_door"],
+      "speeds_mph": [20, 0]
+    },
+    {
+      "id": 21,
+      "pattern": "rear_end",
+      "description": "A sedan stopped at a traffic light is rear-ended by a pickup truck traveling at 25 mph on wet pavement.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [0, 25]
+    },
+    {
+      "id": 22,
+      "pattern": "junction_tbone",
+      "description": "A motorcycle runs a stop sign at 30 mph and collides with the side of a sedan crossing the intersection.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [30, 25]
+    },
+    {
+      "id": 23,
+      "pattern": "pedestrian_crossing",
+      "description": "A child runs into the street chasing a ball. A pickup truck at 20 mph swerves but cannot avoid the pedestrian.",
+      "entities": ["pickup", "pedestrian"],
+      "speeds_mph": [20, 0]
+    },
+    {
+      "id": 24,
+      "pattern": "sideswipe",
+      "description": "Two sedans merge into the same lane simultaneously from opposite sides, sideswiping each other at 30 mph.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [30, 30]
+    },
+    {
+      "id": 25,
+      "pattern": "head_on",
+      "description": "A sedan overtaking a slow vehicle crosses into oncoming traffic and hits an SUV head-on at a combined speed of 70 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [35, 35]
+    },
+    {
+      "id": 26,
+      "pattern": "junction_tbone",
+      "description": "A sedan making a right turn on red is struck by a motorcycle proceeding straight through the intersection at 40 mph.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [10, 40]
+    },
+    {
+      "id": 27,
+      "pattern": "rear_end",
+      "description": "A sedan tailgating at 50 mph rear-ends the car ahead when it brakes for a slowing vehicle two cars ahead in a chain reaction.",
+      "entities": ["sedan", "sedan", "sedan"],
+      "speeds_mph": [30, 40, 50]
+    },
+    {
+      "id": 28,
+      "pattern": "parking_backing",
+      "description": "An SUV backing out of a driveway at low speed collides with a cyclist passing on the sidewalk.",
+      "entities": ["suv", "bicycle"],
+      "speeds_mph": [5, 10]
+    },
+    {
+      "id": 29,
+      "pattern": "pedestrian_crossing",
+      "description": "An elderly pedestrian is crossing at a marked crosswalk. A sedan turning right at 15 mph fails to see them and strikes the pedestrian.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [15, 0]
+    },
+    {
+      "id": 30,
+      "pattern": "junction_tbone",
+      "description": "A pickup truck blows through a flashing red signal at 35 mph and T-bones an SUV entering from the cross street on a flashing yellow.",
+      "entities": ["pickup", "suv"],
+      "speeds_mph": [35, 25]
+    },
+    {
+      "id": 31,
+      "pattern": "sideswipe",
+      "description": "A motorcycle splitting lanes at 25 mph clips the mirror of a sedan that begins changing lanes without signaling.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [25, 20]
+    },
+    {
+      "id": 32,
+      "pattern": "head_on",
+      "description": "Two sedans approach each other on a narrow two-lane road. One drifts over the center line and they collide head-on at 25 mph each.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [25, 25]
+    },
+    {
+      "id": 33,
+      "pattern": "rear_end",
+      "description": "A bicycle stops suddenly at an intersection. A sedan following at 20 mph cannot brake in time and hits the cyclist from behind.",
+      "entities": ["bicycle", "sedan"],
+      "speeds_mph": [0, 20]
+    },
+    {
+      "id": 34,
+      "pattern": "junction_tbone",
+      "description": "Two SUVs enter a four-way stop intersection simultaneously from perpendicular roads, each assuming the other will yield.",
+      "entities": ["suv", "suv"],
+      "speeds_mph": [15, 15]
+    },
+    {
+      "id": 35,
+      "pattern": "pedestrian_crossing",
+      "description": "A pedestrian steps off the curb while looking at their phone. A motorcycle traveling at 30 mph swerves but makes contact.",
+      "entities": ["motorcycle", "pedestrian"],
+      "speeds_mph": [30, 0]
+    },
+    {
+      "id": 36,
+      "pattern": "rear_end",
+      "description": "A sedan driving at 40 mph in fog rear-ends a stopped pickup truck that has pulled over with hazard lights on.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [0, 40]
+    },
+    {
+      "id": 37,
+      "pattern": "junction_tbone",
+      "description": "A sedan making an unprotected left turn at 10 mph is hit by an oncoming SUV that had no time to brake at 45 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [10, 45]
+    },
+    {
+      "id": 38,
+      "pattern": "sideswipe",
+      "description": "An SUV merging onto a road sideswipes a sedan already in the travel lane at 35 mph.",
+      "entities": ["suv", "sedan"],
+      "speeds_mph": [30, 35]
+    },
+    {
+      "id": 39,
+      "pattern": "dooring",
+      "description": "A passenger exits a parked sedan into the bike lane. A cyclist at 12 mph collides with the open door.",
+      "entities": ["bicycle", "parked_car_door"],
+      "speeds_mph": [12, 0]
+    },
+    {
+      "id": 40,
+      "pattern": "parking_backing",
+      "description": "A pickup truck backing out of a diagonal parking space hits the front fender of a sedan passing through the parking aisle at 10 mph.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [5, 10]
+    },
+    {
+      "id": 41,
+      "pattern": "junction_tbone",
+      "description": "A sedan runs a red arrow while turning left and is struck broadside by an oncoming pickup truck at 40 mph.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [15, 40]
+    },
+    {
+      "id": 42,
+      "pattern": "rear_end",
+      "description": "Two motorcycles are following each other. The lead motorcycle brakes for a turning car and the trailing motorcycle at 35 mph rear-ends it.",
+      "entities": ["motorcycle", "motorcycle"],
+      "speeds_mph": [0, 35]
+    },
+    {
+      "id": 43,
+      "pattern": "head_on",
+      "description": "A motorcycle crosses the center line while cornering and collides head-on with a sedan at a combined 50 mph.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [20, 30]
+    },
+    {
+      "id": 44,
+      "pattern": "pedestrian_crossing",
+      "description": "A sedan at 35 mph strikes a pedestrian who stepped into the road from between two parked SUVs.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [35, 0]
+    },
+    {
+      "id": 45,
+      "pattern": "sideswipe",
+      "description": "A sedan drifts left and sideswipes a pickup truck in the adjacent lane on a two-lane road at 40 mph.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [40, 40]
+    },
+    {
+      "id": 46,
+      "pattern": "junction_tbone",
+      "description": "An SUV fails to yield at a yield sign and is T-boned by a sedan with right of way traveling at 35 mph.",
+      "entities": ["suv", "sedan"],
+      "speeds_mph": [15, 35]
+    },
+    {
+      "id": 47,
+      "pattern": "rear_end",
+      "description": "A sedan brakes hard to avoid hitting a pedestrian jaywalking. The SUV behind at 30 mph rear-ends the sedan.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [0, 30]
+    },
+    {
+      "id": 48,
+      "pattern": "pedestrian_crossing",
+      "description": "A pedestrian crosses a road at night wearing dark clothing. An SUV at 40 mph does not see them until impact.",
+      "entities": ["suv", "pedestrian"],
+      "speeds_mph": [40, 0]
+    },
+    {
+      "id": 49,
+      "pattern": "junction_tbone",
+      "description": "A bicycle runs a stop sign and is hit by a pickup truck crossing the intersection at 30 mph.",
+      "entities": ["pickup", "bicycle"],
+      "speeds_mph": [30, 12]
+    },
+    {
+      "id": 50,
+      "pattern": "rear_end",
+      "description": "Six sedans queued in bumper-to-bumper traffic. An SUV at 20 mph hits the back of the line, causing a chain reaction.",
+      "entities": ["sedan", "sedan", "sedan", "sedan", "sedan", "sedan", "suv"],
+      "speeds_mph": [0, 0, 0, 0, 0, 0, 20]
+    },
+    {
+      "id": 51,
+      "pattern": "head_on",
+      "description": "A pickup truck swerves to avoid debris and crosses into oncoming traffic, hitting a sedan head-on at 30 mph each.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [30, 30]
+    },
+    {
+      "id": 52,
+      "pattern": "sideswipe",
+      "description": "Two pickup trucks traveling side by side at 35 mph both drift toward each other and sideswipe.",
+      "entities": ["pickup", "pickup"],
+      "speeds_mph": [35, 35]
+    },
+    {
+      "id": 53,
+      "pattern": "junction_tbone",
+      "description": "A sedan misjudges the gap while turning left across traffic and is struck by an oncoming sedan at 40 mph.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [10, 40]
+    },
+    {
+      "id": 54,
+      "pattern": "parking_backing",
+      "description": "A sedan reversing in a parking lot at 5 mph backs into a motorcycle parked directly behind it.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [5, 0]
+    },
+    {
+      "id": 55,
+      "pattern": "pedestrian_crossing",
+      "description": "A group of pedestrians crosses at a crosswalk. A sedan turning right at 20 mph fails to yield and hits one pedestrian.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [20, 0]
+    },
+    {
+      "id": 56,
+      "pattern": "rear_end",
+      "description": "An SUV at 50 mph rear-ends a slow-moving bicycle traveling at 10 mph on a road with no bike lane.",
+      "entities": ["suv", "bicycle"],
+      "speeds_mph": [50, 10]
+    },
+    {
+      "id": 57,
+      "pattern": "junction_tbone",
+      "description": "A motorcycle traveling at 50 mph runs a stale red light and T-bones a sedan making a protected left turn at 15 mph.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [50, 15]
+    },
+    {
+      "id": 58,
+      "pattern": "head_on",
+      "description": "A wrong-way sedan enters a road at 30 mph. An oncoming motorcycle at 40 mph has no time to react.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [30, 40]
+    },
+    {
+      "id": 59,
+      "pattern": "sideswipe",
+      "description": "A sedan at 45 mph changes lanes abruptly to make an exit and clips an SUV in the right lane.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [45, 35]
+    },
+    {
+      "id": 60,
+      "pattern": "dooring",
+      "description": "A delivery driver opens a van door into the bike lane. A cyclist at 18 mph cannot avoid the door and crashes into it.",
+      "entities": ["bicycle", "parked_car_door"],
+      "speeds_mph": [18, 0]
+    },
+    {
+      "id": 61,
+      "pattern": "junction_tbone",
+      "description": "Two sedans enter an uncontrolled intersection from perpendicular streets at the same time, both traveling 25 mph.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [25, 25]
+    },
+    {
+      "id": 62,
+      "pattern": "rear_end",
+      "description": "A pickup truck at 40 mph rear-ends a sedan that stopped suddenly to avoid a car backing out of a driveway.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [0, 40]
+    },
+    {
+      "id": 63,
+      "pattern": "pedestrian_crossing",
+      "description": "A pickup truck at 30 mph strikes a pedestrian who freezes in the middle of an unmarked crossing.",
+      "entities": ["pickup", "pedestrian"],
+      "speeds_mph": [30, 0]
+    },
+    {
+      "id": 64,
+      "pattern": "junction_tbone",
+      "description": "A sedan rolling through a yield sign at 20 mph is hit by a motorcycle at 35 mph that had the right of way.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [20, 35]
+    },
+    {
+      "id": 65,
+      "pattern": "sideswipe",
+      "description": "A motorcycle at 30 mph filters between lanes and sideswipes a sedan whose driver opens the door slightly in stopped traffic.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [30, 0]
+    },
+    {
+      "id": 66,
+      "pattern": "rear_end",
+      "description": "Two sedans travel at 40 mph with a 1-second following gap. The lead car brakes for a yellow light and the follower rear-ends it.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [40, 40]
+    },
+    {
+      "id": 67,
+      "pattern": "head_on",
+      "description": "An SUV drifts into the oncoming lane on a curve and hits a pickup head-on, both traveling at 35 mph.",
+      "entities": ["suv", "pickup"],
+      "speeds_mph": [35, 35]
+    },
+    {
+      "id": 68,
+      "pattern": "junction_tbone",
+      "description": "A cyclist riding through a red light at 15 mph is struck by an SUV crossing the intersection at 30 mph.",
+      "entities": ["suv", "bicycle"],
+      "speeds_mph": [30, 15]
+    },
+    {
+      "id": 69,
+      "pattern": "parking_backing",
+      "description": "Two SUVs in a parking garage back out from opposite spaces and collide with each other at 5 mph.",
+      "entities": ["suv", "suv"],
+      "speeds_mph": [5, 5]
+    },
+    {
+      "id": 70,
+      "pattern": "pedestrian_crossing",
+      "description": "A sedan at 25 mph hits a pedestrian who walks out from a bus stop into traffic without looking.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [25, 0]
+    },
+    {
+      "id": 71,
+      "pattern": "junction_tbone",
+      "description": "A pickup making a wide right turn at 10 mph swings into an intersection and is struck by a sedan at 35 mph from the left.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [10, 35]
+    },
+    {
+      "id": 72,
+      "pattern": "rear_end",
+      "description": "A sedan at 30 mph rear-ends a bicycle traveling at 8 mph that was obscured by a parked delivery truck.",
+      "entities": ["sedan", "bicycle"],
+      "speeds_mph": [30, 8]
+    },
+    {
+      "id": 73,
+      "pattern": "sideswipe",
+      "description": "An SUV at 30 mph changes lanes to the left and sideswipes a motorcycle traveling in its blind spot at 35 mph.",
+      "entities": ["suv", "motorcycle"],
+      "speeds_mph": [30, 35]
+    },
+    {
+      "id": 74,
+      "pattern": "head_on",
+      "description": "A sedan at 40 mph enters a one-way street the wrong direction and collides head-on with an oncoming SUV at 30 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [40, 30]
+    },
+    {
+      "id": 75,
+      "pattern": "junction_tbone",
+      "description": "An SUV at 45 mph blows through a stop sign obscured by overgrown bushes and T-bones a sedan at 25 mph in the cross street.",
+      "entities": ["suv", "sedan"],
+      "speeds_mph": [45, 25]
+    },
+    {
+      "id": 76,
+      "pattern": "rear_end",
+      "description": "A motorcycle at 45 mph rear-ends a sedan that braked suddenly when a traffic light turned red unexpectedly early.",
+      "entities": ["sedan", "motorcycle"],
+      "speeds_mph": [0, 45]
+    },
+    {
+      "id": 77,
+      "pattern": "pedestrian_crossing",
+      "description": "A motorcycle at 35 mph strikes a pedestrian who darts across the street outside of a crosswalk.",
+      "entities": ["motorcycle", "pedestrian"],
+      "speeds_mph": [35, 0]
+    },
+    {
+      "id": 78,
+      "pattern": "dooring",
+      "description": "A rear passenger in a parked sedan opens the door into traffic. A motorcycle at 25 mph swerves but clips the door.",
+      "entities": ["motorcycle", "parked_car_door"],
+      "speeds_mph": [25, 0]
+    },
+    {
+      "id": 79,
+      "pattern": "junction_tbone",
+      "description": "A sedan at 20 mph entering a roundabout is struck by an SUV already in the circle at 25 mph that did not yield.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [20, 25]
+    },
+    {
+      "id": 80,
+      "pattern": "rear_end",
+      "description": "A sedan and pickup are stopped at a railroad crossing. A third sedan at 30 mph fails to stop and rear-ends the pickup.",
+      "entities": ["sedan", "pickup", "sedan"],
+      "speeds_mph": [0, 0, 30]
+    },
+    {
+      "id": 81,
+      "pattern": "sideswipe",
+      "description": "A sedan makes a U-turn from the left lane and sideswipes an SUV passing on the right at 30 mph.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [10, 30]
+    },
+    {
+      "id": 82,
+      "pattern": "head_on",
+      "description": "Two motorcycles on a narrow two-lane road collide head-on when one crosses the center line at 30 mph each.",
+      "entities": ["motorcycle", "motorcycle"],
+      "speeds_mph": [30, 30]
+    },
+    {
+      "id": 83,
+      "pattern": "junction_tbone",
+      "description": "A sedan at 35 mph with a green light T-bones a pickup that entered the intersection late after a stale yellow at 20 mph.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [35, 20]
+    },
+    {
+      "id": 84,
+      "pattern": "parking_backing",
+      "description": "An SUV backing out of a parking space at 5 mph strikes a bicycle riding through the parking lot at 8 mph.",
+      "entities": ["suv", "bicycle"],
+      "speeds_mph": [5, 8]
+    },
+    {
+      "id": 85,
+      "pattern": "pedestrian_crossing",
+      "description": "An SUV at 30 mph runs a red light and strikes a pedestrian crossing in the crosswalk on a walk signal.",
+      "entities": ["suv", "pedestrian"],
+      "speeds_mph": [30, 0]
+    },
+    {
+      "id": 86,
+      "pattern": "rear_end",
+      "description": "A pickup at 35 mph rear-ends a sedan that is slowly merging onto the road at 10 mph from a side street.",
+      "entities": ["sedan", "pickup"],
+      "speeds_mph": [10, 35]
+    },
+    {
+      "id": 87,
+      "pattern": "junction_tbone",
+      "description": "A pickup at 30 mph fails to see a motorcycle at 40 mph approaching from the right at an intersection with obscured sight lines.",
+      "entities": ["pickup", "motorcycle"],
+      "speeds_mph": [30, 40]
+    },
+    {
+      "id": 88,
+      "pattern": "sideswipe",
+      "description": "A sedan at 25 mph sidles into the bike lane and sideswipes a bicycle traveling at 15 mph.",
+      "entities": ["sedan", "bicycle"],
+      "speeds_mph": [25, 15]
+    },
+    {
+      "id": 89,
+      "pattern": "head_on",
+      "description": "A pickup drifts left on a two-lane road at 35 mph while drowsy and collides head-on with an oncoming sedan at 35 mph.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [35, 35]
+    },
+    {
+      "id": 90,
+      "pattern": "junction_tbone",
+      "description": "A sedan at 30 mph turns left at an intersection and cuts off an SUV going straight at 40 mph, resulting in a broadside collision.",
+      "entities": ["sedan", "suv"],
+      "speeds_mph": [30, 40]
+    },
+    {
+      "id": 91,
+      "pattern": "rear_end",
+      "description": "A sedan at 45 mph on a highway rear-ends a pickup that suddenly slowed to 10 mph due to a tire blowout.",
+      "entities": ["pickup", "sedan"],
+      "speeds_mph": [10, 45]
+    },
+    {
+      "id": 92,
+      "pattern": "pedestrian_crossing",
+      "description": "A pickup at 20 mph in a school zone hits a child pedestrian who runs out from behind a parked car.",
+      "entities": ["pickup", "pedestrian"],
+      "speeds_mph": [20, 0]
+    },
+    {
+      "id": 93,
+      "pattern": "junction_tbone",
+      "description": "A motorcycle at 45 mph running a stale green hits a sedan that jumped the green early at 15 mph from the cross street.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [45, 15]
+    },
+    {
+      "id": 94,
+      "pattern": "parking_backing",
+      "description": "A sedan backing out of a garage at 5 mph hits a pedestrian walking on the sidewalk behind the driveway.",
+      "entities": ["sedan", "pedestrian"],
+      "speeds_mph": [5, 3]
+    },
+    {
+      "id": 95,
+      "pattern": "sideswipe",
+      "description": "Two SUVs traveling at 40 mph on a highway sideswipe while one drifts across the lane marker.",
+      "entities": ["suv", "suv"],
+      "speeds_mph": [40, 40]
+    },
+    {
+      "id": 96,
+      "pattern": "rear_end",
+      "description": "A sedan following a motorcycle at 35 mph rear-ends it when the motorcycle brakes for a pothole the sedan driver cannot see.",
+      "entities": ["motorcycle", "sedan"],
+      "speeds_mph": [0, 35]
+    },
+    {
+      "id": 97,
+      "pattern": "head_on",
+      "description": "Two sedans collide head-on at 25 mph each on a narrow residential street when neither pulls over for the other.",
+      "entities": ["sedan", "sedan"],
+      "speeds_mph": [25, 25]
+    },
+    {
+      "id": 98,
+      "pattern": "junction_tbone",
+      "description": "An SUV at 40 mph runs a red light and T-bones a motorcycle at 20 mph that just entered the intersection.",
+      "entities": ["suv", "motorcycle"],
+      "speeds_mph": [40, 20]
+    },
+    {
+      "id": 99,
+      "pattern": "dooring",
+      "description": "A taxi passenger opens the rear door into a bike lane. A bicycle at 15 mph crashes into the door and is thrown over the handlebars.",
+      "entities": ["bicycle", "parked_car_door"],
+      "speeds_mph": [15, 0]
+    },
+    {
+      "id": 100,
+      "pattern": "rear_end",
+      "description": "A sedan at 40 mph crests a hill and finds a stopped SUV on the other side. Unable to brake in time, it rear-ends the SUV.",
+      "entities": ["suv", "sedan"],
+      "speeds_mph": [0, 40]
+    }
+  ]
+}

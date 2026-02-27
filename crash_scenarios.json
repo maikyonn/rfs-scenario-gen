@@ -1,0 +1,55 @@
+{
+  "road_network": "Richmond entire scene.xodr",
+  "scenarios": [
+    {
+      "id": 1,
+      "name": "Red light runner T-bone",
+      "description": "A sedan traveling eastbound through a signalized intersection at 35 mph runs a red light and collides with the side of an SUV crossing northbound on a green light at 30 mph. The SUV is struck on the driver-side rear door."
+    },
+    {
+      "id": 2,
+      "name": "Rear-end at stopped traffic",
+      "description": "Three vehicles are queued at a red light. A distracted driver approaching from behind at 40 mph fails to brake in time and rear-ends the last vehicle in the queue, causing a chain-reaction collision that pushes it into the vehicle ahead."
+    },
+    {
+      "id": 3,
+      "name": "Left turn across oncoming traffic",
+      "description": "A pickup truck is waiting to make a left turn at a junction. It misjudges the speed of an oncoming motorcycle traveling at 40 mph and turns across its path. The motorcycle strikes the front-right quarter panel of the truck."
+    },
+    {
+      "id": 4,
+      "name": "Parking lot backing collision",
+      "description": "Two vehicles in adjacent parking spaces both begin reversing out simultaneously. Neither driver checks their mirrors. They collide rear-to-rear at low speed (approximately 5 mph) in the parking aisle."
+    },
+    {
+      "id": 5,
+      "name": "Pedestrian crosswalk dash",
+      "description": "A pedestrian steps off the curb and runs across a crosswalk at a signalized intersection against the signal. A vehicle turning right at 20 mph does not see the pedestrian due to an A-pillar blind spot and strikes them in the crosswalk."
+    },
+    {
+      "id": 6,
+      "name": "Sideswipe during lane change",
+      "description": "On a two-lane road, a vehicle in the right lane accelerates to 35 mph and initiates a lane change to the left without checking the blind spot. A vehicle already in the left lane traveling at the same speed is sideswiped along the passenger side."
+    },
+    {
+      "id": 7,
+      "name": "Head-on from wrong-way entry",
+      "description": "A confused driver exits a parking lot and turns the wrong way onto a one-way section of road. They travel at 25 mph for 100 meters before colliding head-on with an oncoming vehicle traveling at 35 mph."
+    },
+    {
+      "id": 8,
+      "name": "Cyclist dooring",
+      "description": "A vehicle parks in a parallel parking space along the road. The driver opens the door into the adjacent lane without looking. A cyclist traveling at 15 mph in the bike lane strikes the open door and is thrown from the bicycle."
+    },
+    {
+      "id": 9,
+      "name": "Unprotected left turn at junction",
+      "description": "Two vehicles approach a stop-sign-controlled junction from perpendicular directions. The vehicle on the minor road rolls through the stop sign at 15 mph, assuming the intersection is clear. A vehicle on the major road at 40 mph has no time to stop and strikes it broadside."
+    },
+    {
+      "id": 10,
+      "name": "Rear-end from sudden obstacle avoidance",
+      "description": "The lead vehicle on a 35 mph road swerves and brakes hard to avoid debris in the roadway. The following vehicle, traveling too close at 1-second following distance, cannot react in time and rear-ends the lead vehicle at approximately 20 mph impact speed."
+    }
+  ]
+}

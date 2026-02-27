@@ -1,0 +1,25 @@
+{
+  "situation_id": 54,
+  "pattern": "parking_backing",
+  "scenario_name": "Parking_Sedan_Motorcycle_Stationary",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "sedan", "type": "sedan"},
+    {"name": "motorcycle", "type": "motorcycle"}
+  ],
+  "init_actions": [
+    {"entity": "sedan", "road": 54, "lane": 2, "s": 40, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "motorcycle", "road": 54, "lane": 1, "s": 38, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "reverse_out", "trigger_time": 1.0, "actions": [
+          {"type": "speed_smooth", "speed_mph": 5, "transition_time": 0.5},
+          {"type": "lane_change", "target_lane": 1, "transition_time": 2.5}
+        ]}
+      ]
+    }
+  ]
+}

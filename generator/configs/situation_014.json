@@ -1,0 +1,75 @@
+{
+  "situation_id": 14,
+  "pattern": "sideswipe",
+  "scenario_name": "Sideswipe_Pickup_Motorcycle",
+  "sim_time": 10.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 33,
+      "lane": 1,
+      "s": 60,
+      "speed_mph": 40
+    },
+    {
+      "entity": "motorcycle",
+      "road": 33,
+      "lane": 2,
+      "s": 60,
+      "speed_mph": 40
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        },
+        {
+          "name": "drift",
+          "trigger_time": 1.0,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 2,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

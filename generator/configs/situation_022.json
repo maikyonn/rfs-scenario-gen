@@ -1,0 +1,82 @@
+{
+  "situation_id": 22,
+  "pattern": "junction_tbone",
+  "scenario_name": "StopSign_Motorcycle_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "motorcycle",
+      "road": 44,
+      "lane": 1,
+      "s": 53,
+      "speed_mph": 30
+    },
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 56,
+      "speed_mph": 25
+    }
+  ],
+  "routes": [
+    {
+      "entity": "motorcycle",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 53,
+      "exit_road": 20,
+      "exit_lane": -1
+    },
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 56,
+      "exit_road": 19,
+      "exit_lane": 1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

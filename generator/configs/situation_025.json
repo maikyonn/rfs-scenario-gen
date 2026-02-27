@@ -1,0 +1,75 @@
+{
+  "situation_id": 25,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_Overtake_Sedan_SUV",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "suv",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 26,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 35
+    },
+    {
+      "entity": "suv",
+      "road": 26,
+      "lane": 1,
+      "s": 168.0,
+      "speed_mph": 35
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        },
+        {
+          "name": "overtake_drift",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 2.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

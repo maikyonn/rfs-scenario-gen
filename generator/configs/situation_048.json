@@ -1,0 +1,65 @@
+{
+  "situation_id": 48,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "NightPedestrian_DarkClothing_SUV",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "suv",
+      "type": "suv"
+    },
+    {
+      "name": "ped",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "suv",
+      "road": 39,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 40
+    },
+    {
+      "entity": "ped",
+      "road": 39,
+      "lane": -1,
+      "s": 45.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {
+          "name": "slow_walk",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 3.0,
+              "transition_time": 1.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "situation_id": 19,
+  "pattern": "junction_tbone",
+  "scenario_name": "Ambulance_RedLight_TBone",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "ambulance",
+      "type": "suv"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 20.0,
+      "speed_mph": 35
+    },
+    {
+      "entity": "ambulance",
+      "road": 44,
+      "lane": 1,
+      "s": 57.0,
+      "speed_mph": 25
+    }
+  ],
+  "routes": [
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 20.0,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "ambulance",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 57.0,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ambulance",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

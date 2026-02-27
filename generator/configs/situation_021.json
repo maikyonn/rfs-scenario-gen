@@ -1,0 +1,64 @@
+{
+  "situation_id": 21,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_StoppedSedan_Pickup",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "pickup",
+      "type": "pickup"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 88.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "pickup",
+      "road": 52,
+      "lane": -1,
+      "s": 20.0,
+      "speed_mph": 25
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "remain_stopped",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 25
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

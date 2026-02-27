@@ -1,0 +1,22 @@
+{
+  "situation_id": 96,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Sedan_Hits_Braked_Motorcycle",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "motorcycle", "type": "motorcycle"},
+    {"name": "sedan", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "motorcycle", "road": 9, "lane": 1, "s": 25.0, "speed_mph": 0},
+    {"entity": "sedan", "road": 9, "lane": 1, "s": 95.0, "speed_mph": 35}
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    }
+  ]
+}

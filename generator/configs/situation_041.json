@@ -1,0 +1,82 @@
+{
+  "situation_id": 41,
+  "pattern": "junction_tbone",
+  "scenario_name": "RedArrow_Sedan_Pickup_TBone",
+  "sim_time": 15.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "pickup",
+      "type": "pickup"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 52,
+      "lane": -1,
+      "s": 75,
+      "speed_mph": 15
+    },
+    {
+      "entity": "pickup",
+      "road": 44,
+      "lane": 1,
+      "s": 66,
+      "speed_mph": 40
+    }
+  ],
+  "routes": [
+    {
+      "entity": "sedan",
+      "start_road": 52,
+      "start_lane": -1,
+      "start_s": 75,
+      "exit_road": 19,
+      "exit_lane": 1
+    },
+    {
+      "entity": "pickup",
+      "start_road": 44,
+      "start_lane": 1,
+      "start_s": 66,
+      "exit_road": 20,
+      "exit_lane": -1
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

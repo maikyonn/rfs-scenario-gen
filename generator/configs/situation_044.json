@@ -1,0 +1,70 @@
+{
+  "situation_id": 44,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "Ped_StepOut_ParkedSUVs",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "sedan",
+      "type": "sedan"
+    },
+    {
+      "name": "pedestrian",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "sedan",
+      "road": 39,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 35
+    },
+    {
+      "entity": "pedestrian",
+      "road": 39,
+      "lane": -1,
+      "s": 45.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "pedestrian",
+      "events": [
+        {
+          "name": "step_out",
+          "trigger_time": 1.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 3.0,
+              "transition_time": 0.3
+            },
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 3.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

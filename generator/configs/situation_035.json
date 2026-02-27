@@ -1,0 +1,65 @@
+{
+  "situation_id": 35,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "Distracted_Ped_Motorcycle",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    },
+    {
+      "name": "ped",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "motorcycle",
+      "road": 39,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 30
+    },
+    {
+      "entity": "ped",
+      "road": 39,
+      "lane": -1,
+      "s": 38.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ped",
+      "events": [
+        {
+          "name": "step_off_curb",
+          "trigger_time": 0.5,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 2.0,
+              "transition_time": 0.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

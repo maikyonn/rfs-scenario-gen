@@ -1,0 +1,81 @@
+{
+  "situation_id": 23,
+  "pattern": "pedestrian_crossing",
+  "scenario_name": "Child_Runs_Pickup_Swerve",
+  "sim_time": 14.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "child",
+      "type": "pedestrian"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 39,
+      "lane": -1,
+      "s": 5.0,
+      "speed_mph": 20
+    },
+    {
+      "entity": "child",
+      "road": 39,
+      "lane": 1,
+      "s": 35.0,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "pickup",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        },
+        {
+          "name": "swerve",
+          "trigger_time": 2.5,
+          "actions": [
+            {
+              "type": "lane_change",
+              "target_lane": 1,
+              "transition_time": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "child",
+      "events": [
+        {
+          "name": "dash",
+          "trigger_time": 1.2,
+          "actions": [
+            {
+              "type": "speed_smooth",
+              "speed_mph": 4.5,
+              "transition_time": 0.5
+            },
+            {
+              "type": "lane_change",
+              "target_lane": -1,
+              "transition_time": 2.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

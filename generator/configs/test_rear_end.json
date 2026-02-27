@@ -1,0 +1,26 @@
+{
+  "situation_id": 902,
+  "pattern": "rear_end",
+  "scenario_name": "test_rear_end",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "car_a", "type": "sedan"},
+    {"name": "car_b", "type": "sedan"},
+    {"name": "car_c", "type": "sedan"},
+    {"name": "car_d", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "car_a", "road": 52, "lane": -1, "s": 85.0, "speed_mph": 0},
+    {"entity": "car_b", "road": 52, "lane": -1, "s": 78.5, "speed_mph": 0},
+    {"entity": "car_c", "road": 52, "lane": -1, "s": 72.0, "speed_mph": 0},
+    {"entity": "car_d", "road": 52, "lane": -1, "s": 22.0, "speed_mph": 40}
+  ],
+  "maneuvers": [
+    {
+      "entity": "car_d",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 40}]}
+      ]
+    }
+  ]
+}

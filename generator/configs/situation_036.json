@@ -1,0 +1,49 @@
+{
+  "situation_id": 36,
+  "pattern": "rear_end",
+  "scenario_name": "FogRearEnd_Sedan_StoppedPickup",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "pickup",
+      "type": "pickup"
+    },
+    {
+      "name": "sedan",
+      "type": "sedan"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "pickup",
+      "road": 53,
+      "lane": -1,
+      "s": 200.0,
+      "speed_mph": 0
+    },
+    {
+      "entity": "sedan",
+      "road": 53,
+      "lane": -1,
+      "s": 30.0,
+      "speed_mph": 40
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {
+          "name": "maintain_speed",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 40
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

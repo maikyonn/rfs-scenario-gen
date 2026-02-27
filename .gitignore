@@ -1,0 +1,44 @@
+# Python
+generator/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+
+# Node / SvelteKit
+web/node_modules/
+web/.svelte-kit/
+web/build/
+web/dist/
+
+# Large binaries — esmini must be installed locally
+esmini/
+
+# Generated scenario files (videos, xosc outputs, render output)
+generated/*.mp4
+generated/*.jpg
+generated/*.xosc
+generator/output/
+render/output/
+
+# Road network (large, shared separately)
+road_network/
+
+# Logs and runtime state
+log.txt
+run_status.json
+*.log
+cs054
+
+# Environment / secrets
+.env
+.env.*
+
+# macOS
+.DS_Store

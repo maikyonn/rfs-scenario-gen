@@ -1,0 +1,28 @@
+{
+  "situation_id": 86,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Pickup_Hits_SlowMerging_Sedan",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "sedan", "type": "sedan"},
+    {"name": "pickup", "type": "pickup"}
+  ],
+  "init_actions": [
+    {"entity": "sedan", "road": 19, "lane": -1, "s": 70.0, "speed_mph": 10},
+    {"entity": "pickup", "road": 19, "lane": -1, "s": 20.0, "speed_mph": 35}
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan",
+      "events": [
+        {"name": "maintain_slow", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 10}]}
+      ]
+    },
+    {
+      "entity": "pickup",
+      "events": [
+        {"name": "maintain_fast", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 35}]}
+      ]
+    }
+  ]
+}

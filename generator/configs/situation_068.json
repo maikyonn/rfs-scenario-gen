@@ -1,0 +1,32 @@
+{
+  "situation_id": 68,
+  "pattern": "junction_tbone",
+  "scenario_name": "CyclistRedLight_SUV_Bicycle",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "suv", "type": "suv"},
+    {"name": "bicycle", "type": "bicycle"}
+  ],
+  "init_actions": [
+    {"entity": "suv", "road": 28, "lane": 1, "s": 40, "speed_mph": 30},
+    {"entity": "bicycle", "road": 39, "lane": -1, "s": 45, "speed_mph": 15}
+  ],
+  "routes": [
+    {"entity": "suv", "start_road": 28, "start_lane": 1, "start_s": 40, "exit_road": 25, "exit_lane": -1},
+    {"entity": "bicycle", "start_road": 39, "start_lane": -1, "start_s": 45, "exit_road": 54, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "suv",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    },
+    {
+      "entity": "bicycle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 15}]}
+      ]
+    }
+  ]
+}

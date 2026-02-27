@@ -1,0 +1,24 @@
+{
+  "situation_id": 99,
+  "pattern": "dooring",
+  "scenario_name": "TaxiDoor_Cyclist_BikeLane",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "cyclist", "type": "bicycle"},
+    {"name": "parked_taxi", "type": "sedan"},
+    {"name": "door", "type": "parked_car_door"}
+  ],
+  "init_actions": [
+    {"entity": "cyclist", "road": 54, "lane": 1, "s": 65, "speed_mph": 15},
+    {"entity": "parked_taxi", "road": 54, "lane": 2, "s": 40, "speed_mph": 0, "lane_type": "parking"},
+    {"entity": "door", "road": 54, "lane": 1, "s": 40, "speed_mph": 0}
+  ],
+  "maneuvers": [
+    {
+      "entity": "cyclist",
+      "events": [
+        {"name": "ride", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 15}]}
+      ]
+    }
+  ]
+}

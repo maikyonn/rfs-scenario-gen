@@ -1,0 +1,61 @@
+{
+  "situation_id": 20,
+  "pattern": "dooring",
+  "scenario_name": "Motorcycle_Dooring",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "motorcycle",
+      "type": "motorcycle"
+    },
+    {
+      "name": "parked_car",
+      "type": "sedan"
+    },
+    {
+      "name": "door",
+      "type": "parked_car_door"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "motorcycle",
+      "road": 54,
+      "lane": 1,
+      "s": 75,
+      "speed_mph": 20
+    },
+    {
+      "entity": "parked_car",
+      "road": 54,
+      "lane": 2,
+      "s": 45,
+      "speed_mph": 0,
+      "lane_type": "parking"
+    },
+    {
+      "entity": "door",
+      "road": 54,
+      "lane": 1,
+      "s": 45,
+      "speed_mph": 0
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {
+          "name": "ride",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "situation_id": 82,
+  "pattern": "head_on",
+  "scenario_name": "HeadOn_CenterLine_MC_MC",
+  "sim_time": 10.0,
+  "entities": [
+    {"name": "correct", "type": "motorcycle"},
+    {"name": "wrong_way", "type": "motorcycle"}
+  ],
+  "init_actions": [
+    {"entity": "correct", "road": 9, "lane": -1, "s": 5, "speed_mph": 30},
+    {"entity": "wrong_way", "road": 9, "lane": 1, "s": 90, "speed_mph": 30}
+  ],
+  "maneuvers": [
+    {
+      "entity": "correct",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    },
+    {
+      "entity": "wrong_way",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]},
+        {"name": "drift", "trigger_time": 0.5, "actions": [
+          {"type": "lane_change", "target_lane": -1, "transition_time": 2.0}
+        ]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "situation_id": 87,
+  "pattern": "junction_tbone",
+  "scenario_name": "ObscuredSightlines_Pickup_Motorcycle",
+  "sim_time": 15.0,
+  "entities": [
+    {"name": "pickup", "type": "pickup"},
+    {"name": "motorcycle", "type": "motorcycle"}
+  ],
+  "init_actions": [
+    {"entity": "motorcycle", "road": 52, "lane": -1, "s": 30, "speed_mph": 30},
+    {"entity": "pickup", "road": 44, "lane": 1, "s": 55, "speed_mph": 25}
+  ],
+  "routes": [
+    {"entity": "motorcycle", "start_road": 52, "start_lane": -1, "start_s": 30, "exit_road": 19, "exit_lane": 1},
+    {"entity": "pickup", "start_road": 44, "start_lane": 1, "start_s": 55, "exit_road": 20, "exit_lane": -1}
+  ],
+  "maneuvers": [
+    {
+      "entity": "motorcycle",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    },
+    {
+      "entity": "pickup",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 25}]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "situation_id": 80,
+  "pattern": "rear_end",
+  "scenario_name": "Rearend_Railroad_Queue_3Cars",
+  "sim_time": 12.0,
+  "entities": [
+    {"name": "sedan_front", "type": "sedan"},
+    {"name": "pickup", "type": "pickup"},
+    {"name": "sedan_rear", "type": "sedan"}
+  ],
+  "init_actions": [
+    {"entity": "sedan_front", "road": 52, "lane": -1, "s": 85.0, "speed_mph": 0},
+    {"entity": "pickup", "road": 52, "lane": -1, "s": 78.5, "speed_mph": 0},
+    {"entity": "sedan_rear", "road": 52, "lane": -1, "s": 20.0, "speed_mph": 30}
+  ],
+  "maneuvers": [
+    {
+      "entity": "sedan_rear",
+      "events": [
+        {"name": "maintain", "trigger_time": 0, "actions": [{"type": "speed", "speed_mph": 30}]}
+      ]
+    }
+  ]
+}

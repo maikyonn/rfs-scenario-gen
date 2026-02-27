@@ -1,0 +1,75 @@
+{
+  "situation_id": 42,
+  "pattern": "rear_end",
+  "scenario_name": "RearEnd_Motorcycles_BrakingLead",
+  "sim_time": 12.0,
+  "entities": [
+    {
+      "name": "moto_lead",
+      "type": "motorcycle"
+    },
+    {
+      "name": "moto_trail",
+      "type": "motorcycle"
+    }
+  ],
+  "init_actions": [
+    {
+      "entity": "moto_lead",
+      "road": 53,
+      "lane": -1,
+      "s": 180.0,
+      "speed_mph": 20
+    },
+    {
+      "entity": "moto_trail",
+      "road": 53,
+      "lane": -1,
+      "s": 155.0,
+      "speed_mph": 35
+    }
+  ],
+  "maneuvers": [
+    {
+      "entity": "moto_lead",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 20
+            }
+          ]
+        },
+        {
+          "name": "brake_hard",
+          "trigger_time": 2.5,
+          "actions": [
+            {
+              "type": "brake",
+              "target_speed_mph": 0,
+              "transition_time": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "moto_trail",
+      "events": [
+        {
+          "name": "maintain",
+          "trigger_time": 0.0,
+          "actions": [
+            {
+              "type": "speed",
+              "speed_mph": 35
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
