@@ -3,15 +3,16 @@
 </script>
 
 <svelte:head>
-	<title>RFS Crash Scenario Viewer</title>
-	<meta name="description" content="View and analyze crash scenarios generated for road safety simulation" />
+	<title>RFS Scenario Workbench</title>
+	<meta name="description" content="R&D evaluation workbench for crash scenario generation methods" />
 </svelte:head>
 
 <div class="app">
 	<header>
-		<a href="/" class="logo">RFS Crash Scenario Viewer</a>
+		<a href="/" class="logo">RFS Scenario Workbench</a>
 		<nav>
-			<a href="/" class="nav-link">Scenarios</a>
+			<a href="/datasets" class="nav-link">Datasets</a>
+			<a href="/experiments" class="nav-link">Experiments</a>
 			<a href="/generate" class="nav-link nav-link--accent">Generate</a>
 		</nav>
 	</header>

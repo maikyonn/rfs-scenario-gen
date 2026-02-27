@@ -7,8 +7,12 @@ Endpoints:
   GET  /api/file/{filename}           Serve generated .xosc / .mp4 / .jpg
   GET  /api/health                    Health check
   POST /api/deploy                    GitHub push webhook (auto-deploy)
+  GET  /api/datasets/*                Dataset browsing
+  POST /api/experiments               Experiment CRUD + results
+  POST /api/ratings                   Rating submission
 """
 
+import asyncio
 import hashlib
 import hmac
 import json
@@ -16,6 +20,7 @@ import logging
 import os
 import subprocess
 import uuid
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -27,7 +32,21 @@ logger = logging.getLogger(__name__)
 
 from api.pipeline import GENERATED_DIR
 
-app = FastAPI(title="RFS Scenario Generator API")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize DB and start batch worker on startup."""
+    from api.db import init_db
+    from api.batch_worker import start_worker
+
+    init_db()
+    worker_task = asyncio.create_task(start_worker())
+    logger.info("DB initialized, batch worker started")
+    yield
+    worker_task.cancel()
+
+
+app = FastAPI(title="RFS Scenario Generator API", lifespan=lifespan)
 
 _allowed_origins = [
     "http://localhost:5173",
@@ -42,6 +61,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Register routers ─────────────────────────────────────────────────────────
+
+from api.routes.datasets import router as datasets_router
+from api.routes.experiments import router as experiments_router
+from api.routes.ratings import router as ratings_router
+
+app.include_router(datasets_router)
+app.include_router(experiments_router)
+app.include_router(ratings_router)
 
 
 # ── Request / Response models ─────────────────────────────────────────────────

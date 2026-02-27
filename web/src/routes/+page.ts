@@ -1,5 +1,1 @@
-import type { PageLoad } from './$types';
-
-export const load: PageLoad = () => {
-	return { scenarios: [] };
-};
+// Root page redirects to /experiments — no data needed
