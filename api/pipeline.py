@@ -238,6 +238,12 @@ def run_pipeline(job_id: str, description: str, max_retries: int = 3):
     if not val.collision_detected:
         real_errors = [e for e in val.errors if "Roadmark" not in e and "signalReference" not in e]
         err_msg = "; ".join(real_errors[:2]) if real_errors else "no collision detected"
+        if val.closest_approach:
+            ca = val.closest_approach
+            err_msg += (
+                f". Closest approach: {ca.distance_m}m between "
+                f"{ca.entity_a} and {ca.entity_b} at t={ca.time}s"
+            )
         messages += [
             {"role": "assistant", "content": json.dumps(config, indent=2)},
             {

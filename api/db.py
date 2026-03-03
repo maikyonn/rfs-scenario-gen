@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS records (
     dataset_id INTEGER NOT NULL REFERENCES datasets(id),
     text_desc TEXT NOT NULL,
     tldr TEXT,
+    road_context TEXT,
     crash_type TEXT,
     pattern TEXT,
     metadata_json TEXT
@@ -83,11 +84,13 @@ def get_conn() -> sqlite3.Connection:
 def init_db():
     conn = get_conn()
     conn.executescript(_SCHEMA)
-    # Migrate: add tldr column if missing (existing DBs)
+    # Migrate: add columns if missing (existing DBs)
     cols = {r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()}
     if "tldr" not in cols:
         conn.execute("ALTER TABLE records ADD COLUMN tldr TEXT")
-        conn.commit()
+    if "road_context" not in cols:
+        conn.execute("ALTER TABLE records ADD COLUMN road_context TEXT")
+    conn.commit()
     conn.close()
 
 
@@ -175,7 +178,7 @@ def get_records(
 
     offset = (page - 1) * per_page
     rows = conn.execute(
-        f"SELECT id, dataset_id, text_desc, tldr, crash_type, pattern, metadata_json "
+        f"SELECT id, dataset_id, text_desc, tldr, road_context, crash_type, pattern, metadata_json "
         f"FROM records WHERE {where_sql} ORDER BY id LIMIT ? OFFSET ?",
         params + [per_page, offset],
     ).fetchall()
@@ -191,12 +194,42 @@ def update_record_tldr(record_id: int, tldr: str):
     conn.close()
 
 
+def update_record_road_context(record_id: int, road_context: str):
+    conn = get_conn()
+    conn.execute("UPDATE records SET road_context = ? WHERE id = ?", (road_context, record_id))
+    conn.commit()
+    conn.close()
+
+
+def update_record_tldr_and_road_context(record_id: int, tldr: str, road_context: str):
+    conn = get_conn()
+    conn.execute(
+        "UPDATE records SET tldr = ?, road_context = ? WHERE id = ?",
+        (tldr, road_context, record_id),
+    )
+    conn.commit()
+    conn.close()
+
+
 def get_records_needing_tldr(record_ids: list[int]) -> list[dict]:
     """Return records from the given IDs that have no tldr yet."""
     conn = get_conn()
     placeholders = ",".join("?" * len(record_ids))
     rows = conn.execute(
         f"SELECT id, text_desc FROM records WHERE id IN ({placeholders}) AND (tldr IS NULL OR tldr = '')",
+        record_ids,
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def get_records_needing_enrichment(record_ids: list[int]) -> list[dict]:
+    """Return records that are missing tldr or road_context."""
+    conn = get_conn()
+    placeholders = ",".join("?" * len(record_ids))
+    rows = conn.execute(
+        f"SELECT id, text_desc FROM records WHERE id IN ({placeholders}) "
+        f"AND (tldr IS NULL OR tldr = '' OR road_context IS NULL OR road_context = '')",
         record_ids,
     ).fetchall()
     conn.close()

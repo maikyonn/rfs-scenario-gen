@@ -33,6 +33,9 @@
 			{#if result.record.pattern}
 				<span class="pattern-badge">{result.record.pattern}</span>
 			{/if}
+			{#if result.record.road_context && result.record.road_context !== 'unspecified'}
+				<span class="road-badge">{result.record.road_context}</span>
+			{/if}
 		</div>
 		<details class="desc-details">
 			<summary class="desc-toggle">Full description</summary>
@@ -198,6 +201,15 @@
 		border-radius: 4px;
 		background: var(--color-accent-dim);
 		color: var(--color-accent);
+	}
+
+	.road-badge {
+		font-size: 0.7rem;
+		font-weight: 500;
+		padding: 2px 8px;
+		border-radius: 4px;
+		background: rgba(96, 165, 250, 0.12);
+		color: #60a5fa;
 	}
 
 	.columns {

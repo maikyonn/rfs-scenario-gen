@@ -72,6 +72,31 @@ For any pattern: `time = distance / speed`.
 
 ---
 
+## PHYSICAL LANE WIDTHS (for multi-lane simulation)
+
+Most roads have 1 lane per direction (~3.5m). A few roads are physically wide enough to simulate multi-lane driving using the `offset` parameter in LanePosition. Use `offset` to shift an entity laterally within a single lane_id.
+
+| Road | Length | Lane width | How to use |
+|------|--------|-----------|------------|
+| **53** | 321m | fwd: 8.8m, bwd: 7.3m | Use `offset: ±1.5` for side-by-side (simulates 2-3 lanes) |
+| **25** | 56m | fwd: 6.7m | Use `offset: ±1.2` for 2-lane simulation (fwd only) |
+| **33** | 81m | 2 actual bwd lanes (1,2) | True multi-lane — use for sideswipe, no offset needed |
+| **11** | 24m | 2 fwd lanes (-1,-2) | True multi-lane but very short |
+| **56** | 14m | 2 fwd, 1 bwd | True multi-lane but tiny |
+
+**When the crash description says "multi-lane" or "2+ lanes":**
+1. Prefer road 53 (longest, widest) or road 25 for straight-road scenarios
+2. Place vehicles at different `offset` values within the same lane to simulate side-by-side positioning
+3. For sideswipe on a genuinely multi-lane road, use road 33 (lanes 1,2 backward)
+
+**Example — two vehicles side-by-side on road 53:**
+```json
+{"entity": "sedan", "road": 53, "lane": -1, "s": 50, "offset": -1.5, "speed_mph": 30}
+{"entity": "suv", "road": 53, "lane": -1, "s": 50, "offset": 1.5, "speed_mph": 30}
+```
+
+---
+
 ## LONG DRIVING ROADS (for rear_end, pedestrian_crossing, head_on)
 
 | Road | Length | Fwd lanes | Bwd lanes | Notes |

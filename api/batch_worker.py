@@ -34,7 +34,7 @@ def get_queue() -> asyncio.Queue:
     return _queue
 
 
-def enqueue_job(generation_id: str, method: str, description: str, record_id: int):
+def enqueue_job(generation_id: str, method: str, description: str, record_id: int, road_context: str | None = None):
     """Add a job to the queue. Must be called from an async context."""
     q = get_queue()
     q.put_nowait({
@@ -42,6 +42,7 @@ def enqueue_job(generation_id: str, method: str, description: str, record_id: in
         "method": method,
         "description": description,
         "record_id": record_id,
+        "road_context": road_context,
     })
 
 
@@ -71,22 +72,30 @@ def _sync_generate(job: dict):
     gen_id = job["generation_id"]
     method = job["method"]
     description = job["description"]
+    road_context = job.get("road_context")
 
     start_time = time.monotonic()
     GENERATED_DIR.mkdir(exist_ok=True)
 
     system_prompt = load_system_prompt(method)
 
-    messages = [
-        {
-            "role": "user",
-            "content": (
-                "Generate a config JSON for this crash scenario. "
-                "Pick the most appropriate road/junction from the reference.\n\n"
-                f"Description: {description}"
-            ),
-        }
-    ]
+    if road_context and road_context != "unspecified":
+        user_content = (
+            "Generate a config JSON for this crash scenario.\n"
+            f"Road context: {road_context}\n"
+            f"Description: {description}\n\n"
+            "Pick the road from the reference that best matches the road context. "
+            "If the exact lane count isn't available, use the widest matching road "
+            "and the offset parameter for lateral positioning within a lane."
+        )
+    else:
+        user_content = (
+            "Generate a config JSON for this crash scenario. "
+            "Pick the most appropriate road/junction from the reference.\n\n"
+            f"Description: {description}"
+        )
+
+    messages = [{"role": "user", "content": user_content}]
 
     # ── Step 1: Generate config via Bedrock ──────────────────────────────────
     update_generation(gen_id, status="generating")
@@ -170,9 +179,15 @@ def _sync_generate(job: dict):
             break
 
         if val_attempt < 2:
-            # Feed error back to LLM and retry
+            # Feed error back to LLM with closest-approach info
             real_errors = [e for e in val.errors if "Roadmark" not in e and "signalReference" not in e]
             err_msg = "; ".join(real_errors[:2]) if real_errors else "no collision detected"
+            if val.closest_approach:
+                ca = val.closest_approach
+                err_msg += (
+                    f". Closest approach: {ca.distance_m}m between "
+                    f"{ca.entity_a} and {ca.entity_b} at t={ca.time}s"
+                )
             messages += [
                 {"role": "assistant", "content": json.dumps(config, indent=2)},
                 {"role": "user", "content": f"Validation failed: {err_msg}\nAdjust positions/speeds for collision. Output corrected JSON."},

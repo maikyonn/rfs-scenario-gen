@@ -16,10 +16,10 @@ from api.db import (
     get_experiment_summary,
     get_generations_grouped_by_method,
     get_records,
-    get_records_needing_tldr,
+    get_records_needing_enrichment,
     list_experiments,
     update_experiment,
-    update_record_tldr,
+    update_record_tldr_and_road_context,
 )
 
 logger = logging.getLogger(__name__)
@@ -27,29 +27,24 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/experiments", tags=["experiments"])
 
 
-def _generate_tldrs(records: list[dict]):
-    """Generate 1-2 sentence TLDRs for records that don't have one yet."""
+def _enrich_records(records: list[dict]):
+    """Generate TLDR + road_context for records that need them."""
     record_ids = [r["id"] for r in records]
-    need_tldr = get_records_needing_tldr(record_ids)
-    if not need_tldr:
+    need = get_records_needing_enrichment(record_ids)
+    if not need:
         return
 
+    from api.backfill_records import SYSTEM, _parse_response
     from api.pipeline import _call_bedrock
 
-    system = (
-        "You summarize crash reports into 1-2 sentence TLDRs describing how "
-        "the vehicles interact. Focus on vehicle movements, positions, and the "
-        "collision dynamics. Be concise and specific. Output ONLY the summary, "
-        "no quotes or prefixes."
-    )
-
-    for rec in need_tldr:
+    for rec in need:
         try:
             messages = [{"role": "user", "content": rec["text_desc"]}]
-            text, _, _ = _call_bedrock(messages, system)
-            update_record_tldr(rec["id"], text.strip())
+            text, _, _ = _call_bedrock(messages, SYSTEM)
+            tldr, road_context = _parse_response(text)
+            update_record_tldr_and_road_context(rec["id"], tldr, road_context)
         except Exception as e:
-            logger.warning("TLDR generation failed for record %d: %s", rec["id"], e)
+            logger.warning("Enrichment failed for record %d: %s", rec["id"], e)
 
 
 class CreateExperimentRequest(BaseModel):
@@ -80,9 +75,9 @@ async def create_experiment_route(req: CreateExperimentRequest):
 
     record_ids = [r["id"] for r in records]
 
-    # Generate TLDRs in background thread (non-blocking)
+    # Enrich records (TLDR + road_context) in background thread
     import threading
-    threading.Thread(target=_generate_tldrs, args=(records,), daemon=True).start()
+    threading.Thread(target=_enrich_records, args=(records,), daemon=True).start()
 
     exp_id = create_experiment(
         name=req.name,
@@ -107,6 +102,7 @@ async def create_experiment_route(req: CreateExperimentRequest):
                 method=method,
                 description=record["text_desc"],
                 record_id=record["id"],
+                road_context=record.get("road_context"),
             )
             total_jobs += 1
 
@@ -177,7 +173,7 @@ async def get_results_route(
     conn = get_conn()
     placeholders = ",".join("?" * len(page_record_ids))
     rows = conn.execute(
-        f"SELECT id, text_desc, tldr, crash_type, pattern FROM records WHERE id IN ({placeholders})",
+        f"SELECT id, text_desc, tldr, road_context, crash_type, pattern FROM records WHERE id IN ({placeholders})",
         page_record_ids,
     ).fetchall()
     conn.close()
