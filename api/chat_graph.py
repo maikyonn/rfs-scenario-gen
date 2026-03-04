@@ -30,12 +30,10 @@ CHAT_SYSTEM_PROMPT = """You are a crash scenario generation assistant for the Ri
 3. ALWAYS call validate_collision with xosc_path
    - If collision_detected=false: look at closest_approach in the output (distance_m, time, entity_a, entity_b).
      Call modify_config with the current config AND a message like:
-     "No collision. Closest approach was Xm at t=Ys. Adjust speeds/positions so vehicles meet at the same point at the same time."
-     Use the closest approach distance to guide your fix — large distance means fine-tune speeds/timing.
-   - After 3 failed attempts on the same junction/road, switch to a DIFFERENT junction or road
-     (e.g. try J199 instead of J323, or a different pattern entirely). Do NOT simplify the scenario —
-     keep the same crash type and vehicles, just change the location.
+     "No collision. Closest approach was Xm at t=Ys. Adjust the starting position (s value) of ONE vehicle so they meet at the same point at the same time."
+     Only change one vehicle's position per retry — keep the other vehicle fixed. Use the closest approach time to calculate the needed s adjustment.
    - Keep retrying (modify → build → validate) until collision_detected=true. Never give up.
+   - Do NOT simplify the scenario, do NOT remove vehicles, do NOT change the junction/road.
 4. Call render_scenario ONLY after validate_collision returns collision_detected=true
 5. Tell the user the result: what the scenario is, where it happens, and include the video URL from render_scenario output.
 
