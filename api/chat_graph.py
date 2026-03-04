@@ -31,8 +31,11 @@ CHAT_SYSTEM_PROMPT = """You are a crash scenario generation assistant for the Ri
    - If collision_detected=false: look at closest_approach in the output (distance_m, time, entity_a, entity_b).
      Call modify_config with the current config AND a message like:
      "No collision. Closest approach was Xm at t=Ys. Adjust speeds/positions so vehicles meet at the same point at the same time."
-     Use the closest approach distance to guide your fix — large distance means fundamentally wrong paths, small distance means fine-tune speeds/timing.
-   - Max 3 validation retries. If still failing after 3: explain to user what's happening and ask for different parameters.
+     Use the closest approach distance to guide your fix — large distance means fine-tune speeds/timing.
+   - After 3 failed attempts on the same junction/road, switch to a DIFFERENT junction or road
+     (e.g. try J199 instead of J323, or a different pattern entirely). Do NOT simplify the scenario —
+     keep the same crash type and vehicles, just change the location.
+   - Keep retrying (modify → build → validate) until collision_detected=true. Never give up.
 4. Call render_scenario ONLY after validate_collision returns collision_detected=true
 5. Tell the user the result: what the scenario is, where it happens, and include the video URL from render_scenario output.
 
@@ -150,7 +153,7 @@ async def stream_chat(session_id: str, user_message: str) -> AsyncGenerator[str,
     in chat_tools.py. They are forwarded through a shared asyncio.Queue that is drained
     concurrently via a background task alongside the main astream_events loop.
     """
-    config = {"configurable": {"thread_id": session_id}, "recursion_limit": 50}
+    config = {"configurable": {"thread_id": session_id}, "recursion_limit": 200}
     progress_q: asyncio.Queue = asyncio.Queue()
     loop = asyncio.get_running_loop()
 
@@ -159,21 +162,53 @@ async def stream_chat(session_id: str, user_message: str) -> AsyncGenerator[str,
     tok_l = _event_loop_var.set(loop)
 
     try:
-        async for event in _agent.astream_events(
-            {"messages": [("user", user_message)]},
-            config=config,
-            version="v2",
-        ):
-            # Drain any buffered progress events before emitting the next agent event
-            while not progress_q.empty():
-                item = progress_q.get_nowait()
-                if item is not None:
-                    payload = json.dumps({"type": "tool_progress", "name": item["tool"], "message": item["message"]})
-                    yield f"data: {payload}\n\n"
+        # Wrap astream_events so we can send keepalive comments during long gaps
+        last_yield = asyncio.get_event_loop().time()
 
-            sse_line = _event_to_sse(event)
-            if sse_line:
-                yield sse_line
+        async def _heartbeat_wrapper():
+            nonlocal last_yield
+            async for event in _agent.astream_events(
+                {"messages": [("user", user_message)]},
+                config=config,
+                version="v2",
+            ):
+                yield event
+                last_yield = asyncio.get_event_loop().time()
+
+        # Background task that sends SSE comments every 15s to keep connection alive
+        heartbeat_q: asyncio.Queue[str] = asyncio.Queue()
+        heartbeat_done = asyncio.Event()
+
+        async def _heartbeat():
+            while not heartbeat_done.is_set():
+                await asyncio.sleep(15)
+                if heartbeat_done.is_set():
+                    break
+                elapsed = asyncio.get_event_loop().time() - last_yield
+                if elapsed >= 14:
+                    await heartbeat_q.put(": keepalive\n\n")
+
+        heartbeat_task = asyncio.create_task(_heartbeat())
+
+        try:
+            async for event in _heartbeat_wrapper():
+                # Drain heartbeats
+                while not heartbeat_q.empty():
+                    yield heartbeat_q.get_nowait()
+
+                # Drain any buffered progress events before emitting the next agent event
+                while not progress_q.empty():
+                    item = progress_q.get_nowait()
+                    if item is not None:
+                        payload = json.dumps({"type": "tool_progress", "name": item["tool"], "message": item["message"]})
+                        yield f"data: {payload}\n\n"
+
+                sse_line = _event_to_sse(event)
+                if sse_line:
+                    yield sse_line
+        finally:
+            heartbeat_done.set()
+            heartbeat_task.cancel()
     except Exception as e:
         payload = json.dumps({"type": "error", "message": str(e)})
         yield f"data: {payload}\n\n"
