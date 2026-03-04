@@ -32,7 +32,6 @@ CHAT_SYSTEM_PROMPT = """You are a crash scenario generation assistant for the Ri
      Call modify_config with the current config AND a message like:
      "No collision. Closest approach was Xm at t=Ys. Adjust ONE parameter of ONE vehicle to fix timing."
      Change only ONE thing per retry: either the s position OR the speed of one vehicle, not both.
-     Alternate between adjusting position and speed across retries if the previous change didn't help.
    - Keep retrying (modify → build → validate) until collision_detected=true. Never give up.
    - Do NOT simplify the scenario, do NOT remove vehicles, do NOT change the junction/road.
 4. Call render_scenario ONLY after validate_collision returns collision_detected=true
