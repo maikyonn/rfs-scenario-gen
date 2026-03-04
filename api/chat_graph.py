@@ -28,9 +28,11 @@ CHAT_SYSTEM_PROMPT = """You are a crash scenario generation assistant for the Ri
 1. Call generate_crash_config (or modify_config for tweaks) → get config JSON
 2. Call build_scenario → get xosc_path
 3. ALWAYS call validate_collision with xosc_path
-   - If collision_detected=false: call modify_config with the current config AND the message:
-     "No collision detected. Fix timing: for junction_tbone, compute arrival_time=(road_length-s)/speed_mps for forward lanes or s/speed_mps for backward lanes. Both vehicles must arrive within 0.5s of each other. Adjust s values to synchronize arrival times."
-   - Max 10 validation retries. If still failing: explain to user and ask for different parameters.
+   - If collision_detected=false: look at closest_approach in the output (distance_m, time, entity_a, entity_b).
+     Call modify_config with the current config AND a message like:
+     "No collision. Closest approach was Xm at t=Ys. Adjust speeds/positions so vehicles meet at the same point at the same time."
+     Use the closest approach distance to guide your fix — large distance means fundamentally wrong paths, small distance means fine-tune speeds/timing.
+   - Max 3 validation retries. If still failing after 3: explain to user what's happening and ask for different parameters.
 4. Call render_scenario ONLY after validate_collision returns collision_detected=true
 5. Tell the user the result: what the scenario is, where it happens, and include the video URL from render_scenario output.
 
@@ -148,7 +150,7 @@ async def stream_chat(session_id: str, user_message: str) -> AsyncGenerator[str,
     in chat_tools.py. They are forwarded through a shared asyncio.Queue that is drained
     concurrently via a background task alongside the main astream_events loop.
     """
-    config = {"configurable": {"thread_id": session_id}, "recursion_limit": 100}
+    config = {"configurable": {"thread_id": session_id}, "recursion_limit": 50}
     progress_q: asyncio.Queue = asyncio.Queue()
     loop = asyncio.get_running_loop()
 

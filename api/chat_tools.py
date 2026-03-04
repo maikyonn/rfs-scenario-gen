@@ -165,11 +165,20 @@ def validate_collision(xosc_path: str) -> str:
         emit_tool_progress("validate_collision", "Launching esmini headless simulation…")
         result = validate_scenario(xosc_path, sim_time=15.0)
         emit_tool_progress("validate_collision", "Parsing collision log…")
-        return json.dumps({
+        out: dict = {
             "collision_detected": result.collision_detected,
             "collision_time": getattr(result, "collision_time", None),
             "errors": result.errors,
-        })
+        }
+        if not result.collision_detected and result.closest_approach:
+            ca = result.closest_approach
+            out["closest_approach"] = {
+                "distance_m": round(ca.distance_m, 2),
+                "time": round(ca.time, 2),
+                "entity_a": ca.entity_a,
+                "entity_b": ca.entity_b,
+            }
+        return json.dumps(out)
     except Exception as e:
         return json.dumps({
             "collision_detected": False,
