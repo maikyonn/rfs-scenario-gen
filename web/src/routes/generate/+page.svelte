@@ -78,6 +78,7 @@
 
 		inputText = '';
 		isStreaming = true;
+		needsTextSeparator = false;
 
 		// Clear right panel so stale data doesn't linger while new scenario generates
 		currentVideo = null;
@@ -145,11 +146,18 @@
 		}
 	}
 
+	let needsTextSeparator = false;
+
 	function handleSseEvent(msg: Message & { role: 'assistant' }, event: Record<string, unknown>) {
 		const type = event.type as string;
 
 		if (type === 'text_delta') {
-			msg.content += (event.delta as string) ?? '';
+			const delta = (event.delta as string) ?? '';
+			if (needsTextSeparator && msg.content && !msg.content.endsWith('\n') && !delta.startsWith('\n')) {
+				msg.content += '\n\n';
+			}
+			msg.content += delta;
+			needsTextSeparator = false;
 		}
 
 		if (type === 'tool_start') {
@@ -171,6 +179,7 @@
 		if (type === 'tool_end') {
 			const name = event.name as string;
 			const output = event.output;
+			needsTextSeparator = true;
 			// Find the last running tool call with this name
 			const tc = [...msg.toolCalls].reverse().find(t => t.name === name && t.status === 'running');
 			if (tc) {
