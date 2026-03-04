@@ -153,8 +153,8 @@
 
 		if (type === 'text_delta') {
 			const delta = (event.delta as string) ?? '';
-			if (needsTextSeparator && msg.content && !msg.content.endsWith('\n') && !delta.startsWith('\n')) {
-				msg.content += '\n\n';
+			if (needsTextSeparator && msg.content && !msg.content.endsWith(' ') && !msg.content.endsWith('\n') && !delta.startsWith(' ') && !delta.startsWith('\n')) {
+				msg.content += ' ';
 			}
 			msg.content += delta;
 			needsTextSeparator = false;
