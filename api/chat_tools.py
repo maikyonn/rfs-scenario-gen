@@ -187,23 +187,35 @@ def render_scenario(xosc_path: str) -> str:
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": f"File not found: {xosc_path}"})
 
     env = {**os.environ, "ESMINI_HOME": str(ESMINI_HOME)}
-    emit_tool_progress("render_scenario", "Starting esmini screen capture…")
+    emit_tool_progress("render_scenario", "Launching esmini viewer…")
     try:
-        result = subprocess.run(
+        proc = subprocess.Popen(
             ["bash", str(RENDER_SCRIPT), xosc_path, str(GENERATED_DIR)],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             text=True,
             env=env,
-            timeout=180,
         )
+        stderr_lines = []
+        for line in proc.stdout:
+            line = line.strip()
+            if "Rendering" in line:
+                emit_tool_progress("render_scenario", "Capturing frames…")
+            elif "Captured" in line:
+                emit_tool_progress("render_scenario", line)
+            elif "Output:" in line:
+                emit_tool_progress("render_scenario", "Encoding complete")
+            elif line:
+                stderr_lines.append(line)
+        proc.wait(timeout=180)
     except subprocess.TimeoutExpired:
+        proc.kill()
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": "Render timed out after 180s"})
     except Exception as e:
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": str(e)})
-    emit_tool_progress("render_scenario", "Encoding MP4 with ffmpeg…")
 
-    if result.returncode != 0:
-        err = result.stderr[-500:] if result.stderr else "unknown render error"
+    if proc.returncode != 0:
+        err = " ".join(stderr_lines[-5:]) if stderr_lines else "unknown render error"
         return json.dumps({"mp4_url": None, "thumbnail_url": None, "error": f"Render failed: {err}"})
 
     stem = Path(xosc_path).stem
