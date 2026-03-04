@@ -26,6 +26,18 @@ class ClosestApproach:
 
 
 @dataclass
+class TrajectoryDiagnostics:
+    """Rich diagnostics from esmini CSV output for collision debugging."""
+    entity_a_pos: tuple[float, float]
+    entity_b_pos: tuple[float, float]
+    entity_a_speed_mps: float
+    entity_b_speed_mps: float
+    closing_speed_mps: float
+    miss_direction: str  # "entity_a_early" | "entity_a_late" | "parallel_paths"
+    trajectory: list[dict] = field(default_factory=list)  # sampled ~1s, max 15
+
+
+@dataclass
 class ValidationResult:
     xosc_path: str
     collision_detected: bool
@@ -35,6 +47,7 @@ class ValidationResult:
     errors: list = field(default_factory=list)  # any esmini errors
     returncode: int = 0
     closest_approach: ClosestApproach | None = None
+    diagnostics: TrajectoryDiagnostics | None = None
 
 
 # Regex for esmini collision log lines
@@ -69,59 +82,72 @@ def _find_esmini() -> str:
     )
 
 
-def _compute_closest_approach(csv_path: str) -> ClosestApproach | None:
-    """Parse esmini CSV logger output and find minimum distance between entities."""
+def _parse_csv_header(lines: list[str]) -> tuple[int, list[str]] | None:
+    """Find header line and return (header_idx, header_fields)."""
+    for i, line in enumerate(lines):
+        if "World_Position_X" in line:
+            return i, [h.strip() for h in line.split(",")]
+    return None
+
+
+def _extract_trajectory_diagnostics(
+    csv_path: str,
+) -> tuple[ClosestApproach | None, TrajectoryDiagnostics | None]:
+    """Parse esmini CSV and extract closest approach + rich trajectory diagnostics."""
     try:
         with open(csv_path) as f:
             lines = f.readlines()
     except FileNotFoundError:
-        return None
+        return None, None
 
-    # Find header line (contains "World_Position_X")
-    header_idx = None
-    for i, line in enumerate(lines):
-        if "World_Position_X" in line:
-            header_idx = i
-            break
-    if header_idx is None:
-        return None
+    parsed = _parse_csv_header(lines)
+    if parsed is None:
+        return None, None
+    header_idx, header = parsed
 
-    header = [h.strip() for h in lines[header_idx].split(",")]
-
-    # Find per-entity position and name columns from header
-    # Format: "#1 World_Position_X [m]", "#1 Entity_Name [-]", etc.
-    entity_xy: dict[int, dict[str, int]] = {}
-    name_cols: dict[int, int] = {}
+    # Map column indices per entity: {entity_num: {x, y, vx, vy, speed, name}}
+    entity_cols: dict[int, dict[str, int]] = {}
+    col_patterns = [
+        ("World_Position_X", "x"),
+        ("World_Position_Y", "y"),
+        ("Vel_X", "vx"),
+        ("Vel_Y", "vy"),
+        ("Current_Speed", "speed"),
+        ("Entity_Name", "name"),
+    ]
 
     for i, h in enumerate(header):
-        m = re.match(r"#(\d+)\s+World_Position_X", h)
-        if m:
-            entity_xy.setdefault(int(m.group(1)), {})["x"] = i
-        m = re.match(r"#(\d+)\s+World_Position_Y", h)
-        if m:
-            entity_xy.setdefault(int(m.group(1)), {})["y"] = i
-        m = re.match(r"#(\d+)\s+Entity_Name", h)
-        if m:
-            name_cols[int(m.group(1))] = i
+        for prefix, key in col_patterns:
+            m = re.match(rf"#(\d+)\s+{prefix}", h)
+            if m:
+                entity_cols.setdefault(int(m.group(1)), {})[key] = i
+                break
 
-    valid = {k: v for k, v in entity_xy.items() if "x" in v and "y" in v}
+    valid = {k: v for k, v in entity_cols.items() if "x" in v and "y" in v}
     if len(valid) < 2:
-        return None
+        return None, None
 
-    # Find time column
-    time_col = 1  # default
+    # Time column
+    time_col = 1
     for i, h in enumerate(header):
         if "TimeStamp" in h:
             time_col = i
             break
 
     entity_nums = sorted(valid.keys())
+    n1, n2 = entity_nums[0], entity_nums[1]
+
+    # Single pass: collect per-frame data and track closest approach across all pairs
     min_dist = float("inf")
     min_time = 0.0
-    min_a = ""
-    min_b = ""
+    min_pair = (n1, n2)
+    min_idx = 0
 
-    for line in lines[header_idx + 1 :]:
+    # Per-frame records for the primary pair (first two entities)
+    distances: list[float] = []
+    frames: list[dict] = []
+
+    for line in lines[header_idx + 1:]:
         parts = [p.strip() for p in line.split(",")]
         if len(parts) < 3:
             continue
@@ -130,48 +156,147 @@ def _compute_closest_approach(csv_path: str) -> ClosestApproach | None:
         except (IndexError, ValueError):
             continue
 
-        positions = {}
-        names = {}
-        for num in entity_nums:
+        frame: dict = {"t": t}
+        skip = False
+        for num in (n1, n2):
+            cols = valid[num]
             try:
-                positions[num] = (
-                    float(parts[valid[num]["x"]]),
-                    float(parts[valid[num]["y"]]),
-                )
+                frame[f"x_{num}"] = float(parts[cols["x"]])
+                frame[f"y_{num}"] = float(parts[cols["y"]])
             except (IndexError, ValueError):
-                continue
-            if num in name_cols:
+                skip = True
+                break
+            for key in ("vx", "vy", "speed"):
+                if key in cols:
+                    try:
+                        frame[f"{key}_{num}"] = float(parts[cols[key]])
+                    except (IndexError, ValueError):
+                        pass
+            if "name" in cols:
                 try:
-                    names[num] = parts[name_cols[num]].strip()
+                    frame[f"name_{num}"] = parts[cols["name"]].strip()
                 except IndexError:
-                    names[num] = f"entity_{num}"
-            else:
-                names[num] = f"entity_{num}"
+                    pass
 
-        for i in range(len(entity_nums)):
-            for j in range(i + 1, len(entity_nums)):
-                n1, n2 = entity_nums[i], entity_nums[j]
-                if n1 not in positions or n2 not in positions:
-                    continue
-                d = math.hypot(
-                    positions[n2][0] - positions[n1][0],
-                    positions[n2][1] - positions[n1][1],
-                )
-                if d < min_dist:
-                    min_dist = d
+        if skip:
+            distances.append(float("inf"))
+            frames.append(frame)
+            continue
+
+        d = math.hypot(
+            frame[f"x_{n2}"] - frame[f"x_{n1}"],
+            frame[f"y_{n2}"] - frame[f"y_{n1}"],
+        )
+        distances.append(d)
+        frames.append(frame)
+
+        # Also check all other pairs for closest approach
+        for pi in range(len(entity_nums)):
+            for pj in range(pi + 1, len(entity_nums)):
+                a, b = entity_nums[pi], entity_nums[pj]
+                if a == n1 and b == n2:
+                    dd = d
+                else:
+                    try:
+                        dd = math.hypot(
+                            float(parts[valid[b]["x"]]) - float(parts[valid[a]["x"]]),
+                            float(parts[valid[b]["y"]]) - float(parts[valid[a]["y"]]),
+                        )
+                    except (IndexError, ValueError, KeyError):
+                        continue
+                if dd < min_dist:
+                    min_dist = dd
                     min_time = t
-                    min_a = names.get(n1, f"entity_{n1}")
-                    min_b = names.get(n2, f"entity_{n2}")
+                    min_pair = (a, b)
+                    if a == n1 and b == n2:
+                        min_idx = len(frames) - 1
 
-    if min_dist == float("inf"):
-        return None
+    if min_dist == float("inf") or not frames:
+        return None, None
 
-    return ClosestApproach(
+    # Entity names
+    def _name(num: int) -> str:
+        for f in frames:
+            n = f.get(f"name_{num}")
+            if n:
+                return n
+        return f"entity_{num}"
+
+    closest = ClosestApproach(
         distance_m=round(min_dist, 2),
         time=round(min_time, 3),
-        entity_a=min_a,
-        entity_b=min_b,
+        entity_a=_name(min_pair[0]),
+        entity_b=_name(min_pair[1]),
     )
+
+    # Diagnostics for the primary pair (n1, n2)
+    # Find closest approach index for primary pair specifically
+    primary_min_idx = 0
+    primary_min_dist = float("inf")
+    for i, d in enumerate(distances):
+        if d < primary_min_dist:
+            primary_min_dist = d
+            primary_min_idx = i
+
+    ca_frame = frames[primary_min_idx]
+
+    # Closing speed via finite differences: -d'(t)
+    closing_speed = 0.0
+    if 0 < primary_min_idx < len(distances) - 1:
+        dt = frames[primary_min_idx + 1]["t"] - frames[primary_min_idx - 1]["t"]
+        if dt > 0:
+            closing_speed = -(distances[primary_min_idx + 1] - distances[primary_min_idx - 1]) / dt
+
+    # Miss direction from velocity projections at closest approach
+    miss_direction = "parallel_paths"
+    look = 5
+    if primary_min_idx > look and primary_min_idx < len(distances) - look:
+        d_before = distances[primary_min_idx - look]
+        d_after = distances[primary_min_idx + look]
+        if d_before > primary_min_dist * 1.5 and d_after > primary_min_dist * 1.5:
+            # Clear approach-then-separate → determine who was early
+            dx = ca_frame.get(f"x_{n2}", 0) - ca_frame.get(f"x_{n1}", 0)
+            dy = ca_frame.get(f"y_{n2}", 0) - ca_frame.get(f"y_{n1}", 0)
+            dist_ab = math.hypot(dx, dy)
+            if dist_ab > 0.01:
+                ux, uy = dx / dist_ab, dy / dist_ab
+                # A's velocity toward B
+                proj_a = ca_frame.get(f"vx_{n1}", 0) * ux + ca_frame.get(f"vy_{n1}", 0) * uy
+                # B's velocity toward A (negative direction)
+                proj_b = -(ca_frame.get(f"vx_{n2}", 0) * ux + ca_frame.get(f"vy_{n2}", 0) * uy)
+                miss_direction = "entity_a_early" if proj_a < proj_b else "entity_a_late"
+
+    # Sampled trajectory (~1s intervals, max 15 points)
+    total_time = frames[-1]["t"] - frames[0]["t"] if len(frames) > 1 else 0
+    sample_interval = max(1.0, total_time / 14) if total_time > 0 else 1.0
+
+    trajectory = []
+    next_t = frames[0]["t"]
+    for i, f in enumerate(frames):
+        if f["t"] >= next_t or i == len(frames) - 1:
+            trajectory.append({
+                "t": round(f["t"], 2),
+                "a_x": round(f.get(f"x_{n1}", 0), 1),
+                "a_y": round(f.get(f"y_{n1}", 0), 1),
+                "b_x": round(f.get(f"x_{n2}", 0), 1),
+                "b_y": round(f.get(f"y_{n2}", 0), 1),
+                "dist": round(distances[i], 2) if i < len(distances) else None,
+            })
+            next_t += sample_interval
+            if len(trajectory) >= 15:
+                break
+
+    diagnostics = TrajectoryDiagnostics(
+        entity_a_pos=(round(ca_frame.get(f"x_{n1}", 0), 2), round(ca_frame.get(f"y_{n1}", 0), 2)),
+        entity_b_pos=(round(ca_frame.get(f"x_{n2}", 0), 2), round(ca_frame.get(f"y_{n2}", 0), 2)),
+        entity_a_speed_mps=round(ca_frame.get(f"speed_{n1}", 0), 2),
+        entity_b_speed_mps=round(ca_frame.get(f"speed_{n2}", 0), 2),
+        closing_speed_mps=round(closing_speed, 2),
+        miss_direction=miss_direction,
+        trajectory=trajectory,
+    )
+
+    return closest, diagnostics
 
 
 def validate_scenario(
@@ -261,10 +386,11 @@ def validate_scenario(
         active_collisions = [c for c in collisions if not c.dissolved]
         first_time = active_collisions[0].time if active_collisions else 0.0
 
-        # Compute closest approach when no collision (for retry feedback)
+        # Compute closest approach + diagnostics when no collision
         closest = None
+        diagnostics = None
         if not active_collisions:
-            closest = _compute_closest_approach(csv_log_path)
+            closest, diagnostics = _extract_trajectory_diagnostics(csv_log_path)
 
         return ValidationResult(
             xosc_path=xosc_path,
@@ -275,6 +401,7 @@ def validate_scenario(
             errors=errors,
             returncode=result.returncode,
             closest_approach=closest,
+            diagnostics=diagnostics,
         )
 
 

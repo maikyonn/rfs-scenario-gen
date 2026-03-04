@@ -17,6 +17,7 @@ from api.chat_tools import (
     modify_config,
     render_scenario,
     validate_collision,
+    validate_with_variants,
 )
 from api.pipeline import AWS_PROFILE
 
@@ -24,22 +25,32 @@ from api.pipeline import AWS_PROFILE
 
 CHAT_SYSTEM_PROMPT = """You are a crash scenario generation assistant for the Richmond, CA autonomous vehicle test environment.
 
-## Strict Workflow Order:
+## Primary Workflow (preferred — fast convergence):
 1. Call generate_crash_config (or modify_config for tweaks) → get config JSON
-2. Call build_scenario → get xosc_path
-3. ALWAYS call validate_collision with xosc_path
-   - If collision_detected=false: look at closest_approach in the output (distance_m, time, entity_a, entity_b).
-     Call modify_config with the current config AND a message like:
-     "No collision. Closest approach was Xm at t=Ys. Adjust ONE parameter of ONE vehicle to fix timing."
-     Change only ONE thing per retry: either the s position OR the speed of one vehicle, not both.
-   - Keep retrying (modify → build → validate) until collision_detected=true. Never give up.
-   - Do NOT simplify the scenario, do NOT remove vehicles, do NOT change the junction/road.
-4. Call render_scenario ONLY after validate_collision returns collision_detected=true
-5. Tell the user the result: what the scenario is, where it happens, and include the video URL from render_scenario output.
+2. Call validate_with_variants with config_json and session_id
+   - This runs physics pre-flight, generates 5 speed variants, builds & validates ALL in parallel
+   - If collision_found=true: use best_variant.xosc_path for rendering
+   - If collision_found=false: read diagnostics from best_variant to make targeted fixes:
+     - closest_approach < 3m → small speed tweak (+/-2 mph via modify_config)
+     - 3-8m → moderate fix (+/-5 mph or +/-5m position)
+     - >8m → geometry is wrong, check routes/roads
+     - miss_direction="entity_a_early" → entity_a arrives too soon, slow it down or start it farther back
+     - miss_direction="entity_a_late" → entity_a arrives too late, speed it up or start it closer
+     - miss_direction="parallel_paths" → paths don't cross, check route assignments
+   - Call modify_config with the current config AND diagnostics summary, then validate_with_variants again
+3. Call render_scenario ONLY after collision is confirmed
+4. Tell the user the result with the video URL
+
+## Fallback Workflow (single validation):
+If validate_with_variants is unavailable, use: build_scenario → validate_collision → retry loop.
+
+## Retry Budget:
+- Max 3 rounds of validate_with_variants (= up to 15 parallel esmini runs)
+- If still no collision after 3 rounds, ask the user for guidance
 
 ## Tweaks:
 When user asks to modify speed/position/vehicle/pattern:
-  → modify_config → build_scenario → validate_collision → render_scenario
+  → modify_config → validate_with_variants → render_scenario
 
 ## Domain:
 - Patterns: junction_tbone, rear_end, head_on, sideswipe, pedestrian_crossing, dooring, parking_backing
@@ -55,15 +66,15 @@ When user asks to modify speed/position/vehicle/pattern:
 - Alternative: Use "offset": 1.2 on any road to push the vehicle toward the curb.
 
 ## Important:
-- Always pass session_id to build_scenario so filenames are unique per session.
-- Never render without a confirmed collision from validate_collision.
+- Always pass session_id to validate_with_variants and build_scenario.
+- Never render without a confirmed collision.
 - If modify_config or generate_crash_config returns an ERROR: string, tell the user what went wrong.
 """
 
 # ── Agent singleton ───────────────────────────────────────────────────────────
 
 _checkpointer = MemorySaver()
-_tools = [generate_crash_config, modify_config, build_scenario, validate_collision, render_scenario]
+_tools = [generate_crash_config, modify_config, build_scenario, validate_collision, validate_with_variants, render_scenario]
 
 
 def _make_agent():
