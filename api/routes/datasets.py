@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Query
 
 from api.db import get_dataset, get_dataset_stats, get_records, get_generations_grouped_by_method, list_datasets
+from api.s3 import resolve_url
 
 router = APIRouter(prefix="/api/datasets", tags=["datasets"])
 
@@ -27,6 +28,10 @@ async def get_records_route(
     if records:
         record_ids = [r["id"] for r in records]
         gen_map = get_generations_grouped_by_method(record_ids)
+        for rid_gens in gen_map.values():
+            for gen in rid_gens.values():
+                gen["mp4_url"] = resolve_url(gen.get("mp4_url"))
+                gen["thumbnail_url"] = resolve_url(gen.get("thumbnail_url"))
         for r in records:
             r["generations"] = gen_map.get(r["id"], {})
 

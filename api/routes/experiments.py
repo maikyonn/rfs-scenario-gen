@@ -16,11 +16,13 @@ from api.db import (
     get_experiment_summary,
     get_generations_grouped_by_method,
     get_records,
+    get_records_by_ids,
     get_records_needing_enrichment,
     list_experiments,
     update_experiment,
     update_record_tldr_and_road_context,
 )
+from api.s3 import resolve_url
 
 logger = logging.getLogger(__name__)
 
@@ -168,17 +170,13 @@ async def get_results_route(
 
     gen_map = get_generations_grouped_by_method(page_record_ids, experiment_id=exp_id)
 
-    # Fetch record details
-    from api.db import get_conn
-    conn = get_conn()
-    placeholders = ",".join("?" * len(page_record_ids))
-    rows = conn.execute(
-        f"SELECT id, text_desc, tldr, road_context, crash_type, pattern FROM records WHERE id IN ({placeholders})",
-        page_record_ids,
-    ).fetchall()
-    conn.close()
+    record_map = get_records_by_ids(page_record_ids)
 
-    record_map = {r["id"]: dict(r) for r in rows}
+    # Resolve S3 keys to presigned URLs in generation data
+    for rid_gens in gen_map.values():
+        for gen in rid_gens.values():
+            gen["mp4_url"] = resolve_url(gen.get("mp4_url"))
+            gen["thumbnail_url"] = resolve_url(gen.get("thumbnail_url"))
 
     results = []
     for rid in page_record_ids:

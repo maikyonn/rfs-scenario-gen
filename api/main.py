@@ -25,7 +25,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -117,9 +117,19 @@ async def get_chat(session_id: str):
 
 @app.get("/api/file/{filename}")
 async def serve_file(filename: str):
-    """Serve a generated file (.xosc, .mp4, .jpg)."""
-    # Prevent path traversal
-    path = GENERATED_DIR / Path(filename).name
+    """Serve a generated file — redirect to S3 presigned URL, fall back to local."""
+    safe_name = Path(filename).name  # prevent path traversal
+    from api.s3 import S3_BUCKET, S3_PREFIX, get_presigned_url
+
+    if S3_BUCKET:
+        key = f"{S3_PREFIX}{safe_name}"
+        try:
+            url = get_presigned_url(key)
+            return RedirectResponse(url=url, status_code=302)
+        except Exception:
+            pass  # fall through to local
+
+    path = GENERATED_DIR / safe_name
     if not path.exists():
         raise HTTPException(status_code=404, detail="File not found")
 

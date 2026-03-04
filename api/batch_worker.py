@@ -208,7 +208,7 @@ def _sync_generate(job: dict):
 
     update_generation(
         gen_id,
-        collision_detected=int(collision_detected),
+        collision_detected=collision_detected,
         collision_time=collision_time,
     )
 
@@ -244,9 +244,12 @@ def _sync_generate(job: dict):
                           duration_ms=_elapsed_ms(start_time))
         return
 
-    # Try S3 upload
-    mp4_url = _try_upload(mp4) or f"/api/file/{mp4.name}"
-    thumb_url = (_try_upload(jpg) or f"/api/file/{jpg.name}") if jpg.exists() else None
+    # Upload to S3 — store key (not presigned URL) for persistence
+    from api.s3 import upload_file
+    mp4_key = upload_file(mp4)
+    mp4_url = mp4_key or f"/api/file/{mp4.name}"
+    thumb_key = upload_file(jpg) if jpg.exists() else None
+    thumb_url = thumb_key or (f"/api/file/{jpg.name}" if jpg.exists() else None)
 
     update_generation(
         gen_id,
@@ -261,12 +264,3 @@ def _sync_generate(job: dict):
 
 def _elapsed_ms(start: float) -> int:
     return int((time.monotonic() - start) * 1000)
-
-
-def _try_upload(local_path: Path) -> str | None:
-    """Try uploading to S3, return presigned URL or None."""
-    try:
-        from api.chat_tools import _upload_to_s3
-        return _upload_to_s3(local_path)
-    except Exception:
-        return None

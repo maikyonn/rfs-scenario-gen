@@ -8,6 +8,8 @@ import logging
 import sys
 import time
 
+from psycopg2.extras import RealDictCursor
+
 from api.db import get_conn, init_db, update_record_tldr
 from api.pipeline import _call_bedrock
 
@@ -24,11 +26,12 @@ SYSTEM = (
 
 def backfill():
     init_db()
-    conn = get_conn()
-    rows = conn.execute(
-        "SELECT id, text_desc FROM records WHERE tldr IS NULL OR tldr = '' ORDER BY id"
-    ).fetchall()
-    conn.close()
+    with get_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute(
+                "SELECT id, text_desc FROM records WHERE tldr IS NULL OR tldr = '' ORDER BY id"
+            )
+            rows = cur.fetchall()
 
     total = len(rows)
     if total == 0:
