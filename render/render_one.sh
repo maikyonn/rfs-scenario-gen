@@ -20,6 +20,10 @@ mkdir -p "$OUTPUT_DIR"
 
 echo "==> Rendering $BASENAME..."
 
+# Disable vsync — without this esmini locks to 1 fps on some drivers
+export __GL_SYNC_TO_VBLANK=0
+export vblank_mode=0
+
 # Run esmini with borderless viewer window + capture_screen
 # --capture_screen writes screen_shot_XXXXX.tga to CWD
 # Use --borderless-window to avoid title bar eating pixels
